@@ -1,4 +1,7 @@
 import buble from 'rollup-plugin-buble';
+import commonjs from 'rollup-plugin-commonjs';
+import nodeResolve from 'rollup-plugin-node-resolve';
+import uglify from 'rollup-plugin-uglify';
 const pkg = require('../package.json');
 const copyright = `/**
 * ${pkg.name} - v${pkg.version} - ${new Date().toString()}
@@ -10,6 +13,10 @@ export default {
   entry: 'lib/adlib.js',
   moduleName: 'adlib',
   format: 'umd',
-  plugins: [buble()],
+  plugins: [
+    nodeResolve({ main: true }),
+    commonjs(),
+    buble()
+  ],
   banner: copyright
 };

@@ -25,10 +25,7 @@
     "url": "https://github.com/ArcGIS/adlib/issues"
   },
   "homepage": "https://arcgis.github.io/adlib",
-  "dependencies": {
-    "lodash": "^4.17.4",
-    "lodash-deep": "^2.0.0"
-  },
+  "dependencies": {},
   "devDependencies": {
     "babel-cli": "^6.24.1",
     "babel-core": "^6.24.1",
@@ -47,6 +44,15 @@
     "eslint-plugin-promise": "^2.0.1",
     "eslint-plugin-react": "^6.2.0",
     "eslint-plugin-standard": "^2.0.0",
+    "lodash.assignin": "^4.2.0",
+    "lodash.get": "^4.4.2",
+    "lodash.isdate": "^4.0.1",
+    "lodash.isfunction": "^3.0.8",
+    "lodash.isobject": "^3.0.2",
+    "lodash.isregexp": "^4.0.1",
+    "lodash.isstring": "^4.0.1",
+    "lodash.map": "^4.6.0",
+    "lodash.mapvalues": "^4.6.0",
     "mocha": "^3.3.0",
     "rollup": "^0.41.6",
     "rollup-plugin-babel": "^2.7.1",
