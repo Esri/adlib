@@ -3,9 +3,7 @@
  */
 
 let expect = require('chai').expect;
-// let _ = require('lodash');
-// let lodashdeep = require('lodash-deep');
-let adlib = require('../dist/adlib.js');
+let adlib = require('../dist/adlib.umd.js');
 
 
 describe('adlib ::', () => {
