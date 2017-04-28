@@ -38,7 +38,7 @@
   "bugs": {
     "url": "https://github.com/ArcGIS/adlib/issues"
   },
-  "homepage": "https://arcgis.github.io/adlib",
+  "homepage": "https://arcgis.github.io/ember-arcgis-adlib-service",
   "dependencies": {},
   "devDependencies": {
     "babel-cli": "^6.24.1",
