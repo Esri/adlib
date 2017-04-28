@@ -8,7 +8,8 @@
     "init": "mkdir dist",
     "clean": "rm -rf dist",
     "build": "rollup -c profiles/dev.js",
-    "build:release": "rollup -c profiles/dev.js && rollup -c profiles/prod.js"
+    "build:release": "rollup -c profiles/dev.js && rollup -c profiles/prod.js",
+    "test": "mocha"
   },
   "repository": {
     "type": "git",
@@ -57,8 +58,10 @@
     "rollup": "^0.41.6",
     "rollup-plugin-babel": "^2.7.1",
     "rollup-plugin-buble": "^0.15.0",
+    "rollup-plugin-commonjs": "^8.0.2",
     "rollup-plugin-filesize": "^1.2.1",
-    "rollup-plugin-uglify": "^1.0.1",
+    "rollup-plugin-node-resolve": "^3.0.0",
+    "rollup-plugin-uglify": "^1.0.2",
     "watch": "^1.0.2"
   }
 }
