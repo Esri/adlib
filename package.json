@@ -20,7 +20,20 @@
     "json",
     "templating"
   ],
-  "author": "Dave Bouwman <dbouwman@esri.com>, Andrew Turner <aturner@esri.com>",
+  "author": {
+    "name": "Dave Bouwman",
+    "email":"dbouwman@esri.com"
+  },
+  "contributors": [
+    {
+      "name": "Andrew Turner",
+      "email":"aturner@esri.com"
+    },
+    {
+      "name": "Tom Wayson",
+      "email":"twayson@esri.com"
+    }
+  ],
   "license": "Apache-2.0",
   "bugs": {
     "url": "https://github.com/ArcGIS/adlib/issues"
