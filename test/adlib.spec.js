@@ -81,6 +81,25 @@ describe('adlib ::', () => {
       expect(result.value).to.equal('The value is {{thing.novalue}} and red');
     })
 
+    it('should leave undefined instances within a url string', () => {
+      let template = {
+        value: '{{organization.portalBaseUrl}}/apps/SummaryViewer/index.html?appid={{collisionViewer.item.id}}'
+      };
+      let settings = {
+        organization: {
+          portalBaseUrl: 'http://foo.com'
+        },
+        collisionViewer: {
+          item: {
+            notId: '3ef'
+          }
+        }
+      };
+      let result = adlib(template, settings);
+
+      expect(result.value).to.equal('http://foo.com/apps/SummaryViewer/index.html?appid={{collisionViewer.item.id}}');
+    })
+
     it('should replace multiple values in a string', () => {
       let template = {
         value: 'The {{thing.animal}} was {{thing.color}} but still a {{thing.animal}}'
