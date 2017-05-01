@@ -38,6 +38,35 @@ describe('adlib ::', () => {
       expect(result.value).to.equal('red');
     })
 
+    it('should replace a path within a larger string', () => {
+      let template = {
+        value: 'The value is {{thing.value}}'
+      };
+      let settings = {
+        thing: {
+          value: 'red'
+        }
+      };
+      let result = adlib(template, settings);
+
+      expect(result.value).to.equal('The value is red');
+    })
+
+
+    it('should replace multiple instances within a larger string', () => {
+      let template = {
+        value: 'The value is {{thing.value}} and {{thing.value}}'
+      };
+      let settings = {
+        thing: {
+          value: 'red'
+        }
+      };
+      let result = adlib(template, settings);
+
+      expect(result.value).to.equal('The value is red and red');
+    })
+
     it('should replace multiple values in a string', () => {
       let template = {
         value: 'The {{thing.animal}} was {{thing.color}} but still a {{thing.animal}}'
