@@ -158,6 +158,43 @@ describe('adlib ::', () => {
    * Lets play with objects!
    */
   describe('objects ::', () => {
+    it('should preserve empty objects', () => {
+      let template = {
+        value: '{{s.obj}}',
+        emptyObj: {}
+      };
+      let settings = {
+        s: {
+          obj: {
+            val: 'red'
+          }
+        }
+      };
+      let result = adlib(template, settings);
+      expect(result.value.val).to.be.defined;
+      expect(result.value.val).to.equal('red');
+      expect(typeof result.emptyObj).to.equal('object');
+      expect(result.emptyObj).to.be.defined;
+    })
+
+    it('should preserve nulls', () => {
+      let template = {
+        value: '{{s.obj}}',
+        nullThing: null
+      };
+      let settings = {
+        s: {
+          obj: {
+            val: 'red'
+          }
+        }
+      };
+      let result = adlib(template, settings);
+      expect(result.value.val).to.be.defined;
+      expect(result.value.val).to.equal('red');
+      expect(result.nullThing).to.equal(null);
+    })
+
     it('should replace a token with an object', () => {
       let template = {
         value: '{{s.obj}}'
