@@ -5,13 +5,13 @@ import nodeResolve from 'rollup-plugin-node-resolve';
 const pkg = require('../package.json');
 const copyright = `/**
 * ${pkg.name} - v${pkg.version} - ${new Date().toString()}
-* Copyright (c) ${new Date().getFullYear()} Dave Bouwman / Esri
+* Copyright (c) ${new Date().getFullYear()} ${pkg.author.name} / Esri
 * ${pkg.license}
 */`;
 
 export default {
-  entry: 'lib/adlib.js',
-  moduleName: 'adlib',
+  entry: `lib/${pkg.name}.js`,
+  moduleName: pkg.name,
   format: 'umd',
   plugins: [
     nodeResolve({ main: true }),
