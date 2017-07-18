@@ -1,6 +1,6 @@
 {
   "name": "adlib",
-  "version": "0.0.5",
+  "version": "0.0.7",
   "description": "Templating for deep JSON object graphs",
   "main": "index.js",
   "scripts": {
