@@ -265,6 +265,7 @@ describe('adlib ::', () => {
       let result = adlib(template, settings);
       expect(result.values[0].type).to.equal('bear');
     });
+
     it('should replace tokens with an array', () => {
       let template = {
         values:'{{s.animals}}'
@@ -280,6 +281,70 @@ describe('adlib ::', () => {
       expect(result.values).to.be.defined;
       expect(Array.isArray(result.values)).to.be.true;
       expect(result.values[1]).to.equal('panda');
+    });
+
+    it('should run passed in transforms on a value', () => {
+      let template = {
+        value:'{{s.animal.type:upcase:value}}'
+      };
+      let settings = {
+        s: {
+          animal: {
+            type: 'bear'
+          },
+          color: 'brown'
+        }
+      };
+      let transforms = {
+        upcase (val) {
+          return val.toUpperCase();
+        }
+      };
+      let result = adlib(template, settings, transforms);
+      expect(result.value).to.be.defined;
+      expect(result.value).to.equal('BEAR');
+    });
+    it('should default to transforms on a value', () => {
+      let template = {
+        value:'{{s.animal.type:upcase}}'
+      };
+      let settings = {
+        s: {
+          animal: {
+            type: 'bear'
+          },
+          color: 'brown'
+        }
+      };
+      let transforms = {
+        upcase (val) {
+          return val.toUpperCase();
+        }
+      };
+      let result = adlib(template, settings, transforms);
+      expect(result.value).to.be.defined;
+      expect(result.value).to.equal('BEAR');
+    });
+    it('should run passed in transforms on a key', () => {
+      let template = {
+        value:'{{s.animal.type:upcase:key}}'
+      };
+      let settings = {
+        s: {
+          animal: {
+            type: 'bear'
+          },
+          color: 'brown'
+        }
+      };
+      let transforms = {
+        upcase (val) {
+          return val.toUpperCase();
+        }
+      };
+      let result = adlib(template, settings, transforms);
+      expect(result.value).to.be.defined;
+      expect(result.value).to.equal('S.ANIMAL.TYPE');
     })
   })
 })
