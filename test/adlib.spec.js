@@ -282,29 +282,30 @@ describe('adlib ::', () => {
       expect(Array.isArray(result.values)).to.be.true;
       expect(result.values[1]).to.equal('panda');
     });
-
-    it('should run passed in transforms on a value', () => {
+    it('should replace tokens with an array and run transforms', () => {
       let template = {
-        value:'{{s.animal.type:upcase:value}}'
+        values:'{{s.animals:upcaseArr}}'
       };
       let settings = {
         s: {
-          animal: {
-            type: 'bear'
-          },
-          color: 'brown'
+          animals: [
+            'bear', 'panda'
+          ]
         }
       };
       let transforms = {
-        upcase (val) {
-          return val.toUpperCase();
+        upcaseArr (key, val, settings) {
+          return val.map((v) =>{
+            return v.toUpperCase();
+          })
         }
-      };
+      }
       let result = adlib(template, settings, transforms);
-      expect(result.value).to.be.defined;
-      expect(result.value).to.equal('BEAR');
+      expect(result.values).to.be.defined;
+      expect(Array.isArray(result.values)).to.be.true;
+      expect(result.values[1]).to.equal('PANDA');
     });
-    it('should default to transforms on a value', () => {
+    it('should run passed in transforms', () => {
       let template = {
         value:'{{s.animal.type:upcase}}'
       };
@@ -317,34 +318,51 @@ describe('adlib ::', () => {
         }
       };
       let transforms = {
-        upcase (val) {
-          return val.toUpperCase();
+        upcase (key, val, settings) {
+          return val.toUpperCase() + settings.s.color;
         }
       };
       let result = adlib(template, settings, transforms);
       expect(result.value).to.be.defined;
-      expect(result.value).to.equal('BEAR');
+      expect(result.value).to.equal('BEARbrown');
     });
-    it('should run passed in transforms on a key', () => {
+
+    it('should run transform even if value is undefined', () => {
       let template = {
-        value:'{{s.animal.type:upcase:key}}'
+        value:'{{s.animal.type:upcase}}'
       };
       let settings = {
         s: {
-          animal: {
-            type: 'bear'
-          },
           color: 'brown'
         }
       };
       let transforms = {
-        upcase (val) {
-          return val.toUpperCase();
+        upcase (key, val, settings) {
+          return key.toUpperCase();
         }
       };
       let result = adlib(template, settings, transforms);
       expect(result.value).to.be.defined;
       expect(result.value).to.equal('S.ANIMAL.TYPE');
+    })
+
+    it('transform has access to settings hash', () => {
+      let template = {
+        value:'{{s.animal.type:upcase}}'
+      };
+      let settings = {
+        s: {
+          color: 'brown'
+        }
+      };
+      let transforms = {
+        upcase (key, val, settings) {
+          return `${key.toUpperCase()} is ${settings.s.color}`;
+        }
+      };
+      let result = adlib(template, settings, transforms);
+      expect(result.value).to.be.defined;
+      expect(result.value).to.equal('S.ANIMAL.TYPE is brown');
     })
   })
 })

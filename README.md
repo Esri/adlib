@@ -82,27 +82,38 @@ let result = adlib(template, settings);
 ```
 
 ## Transforms
-Adlib can apply transforms during the interpolation. Two styles are supported - transformations applied to the **interpolated value**, and transforms applied to the **key**.
+Adlib can apply transforms during the interpolation. The transform fn should have the following signature: `fn(key, value, settings)`.
 
 ```
 // Pattern
-// {{key:transformFnName:type}}
+// {{key:transformFnName}}
 
-let  tmpl = `{{s.animal.type:upcase:value}}`;
+let  tmpl = `{{s.animal.type:upcase}}`;
+let settings = {
+  s: {
+    animal: {
+      type: 'bear'
+    }
+  }
+}
 // will parse into
 // key: s.animal.type
+// value: 'bear'
 // transformFnName: 'upcase'
-// type: 'value'
+
 ```
 
-**NOTE** Transforms are ideally pure functions, and they MUST be sync functions! Promises are not supported.  
+### Notes About Transforms
+- Transforms are ideally pure functions, and they **must** be sync functions! Promises are not supported.  
+- Transform functions should be VERY resilient - we recommend unit testing them extensively
+- If your settings hash does not have an entry for the `key`, the `value` will be `null`.
 
 
-### Transforming a Value
+### Transforms
 
 ```
 let template = {
-  value:'{{s.animal.type:upcase:value}}'
+  value:'{{s.animal.type:upcase}}'
 };
 let settings = {
   s: {
@@ -113,7 +124,7 @@ let settings = {
   }
 };
 let transforms = {
-  upcase (val) {
+  upcase (key, val, settings) {
     return val.toUpperCase();
   }
 };
@@ -121,16 +132,16 @@ let result = adlib(template, settings, transforms);
 //> result.value = 'BEAR'
 ```
 
-### Transforming a Key
-A typical use-case for this is for translation - the translation key is the `key`
+### Transforms using the Key
+A typical use-case for this is for translation.
 
 ```
 let template = {
-  value:'{{s.animal.type:translate:key}}'
+  value:'{{s.animal.type:translate}}'
 };
 let settings = {};
 let transforms = {
-  translate (key) {
+  translate (key, val, settings) {
     // the translator is passed in from the consuming application
     // note that the settings hash is empty
     return translator.translate(key);
