@@ -2,6 +2,11 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+
+# Unreleased
+### Added
+- `/docs/js` folder that contains simple homepage & current build - mainly for use prototyping stuff in jsbin
+
 # 0.2.0
 ### Changed
 - transform fn signature changed to `fn(key, value, settings)`
