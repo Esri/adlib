@@ -1,5 +1,6 @@
 /**
  * adlib.spec.js
+ * This is run on the compiled adlib library
  */
 
 let expect = require('chai').expect;

@@ -10,7 +10,7 @@
     "clean": "rm -rf dist",
     "build": "rollup -c profiles/dev.js",
     "build:release": "rollup -c profiles/dev.js && rollup -c profiles/prod.js && cp ./dist/* ./docs/js",
-    "test": "tape test/duct.js",
+    "test": "node test/duct.js",
     "test:compiled": "mocha test/*.spec.js"
   },
   "repository": {

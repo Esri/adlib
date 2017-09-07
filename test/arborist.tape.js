@@ -412,6 +412,36 @@ test('arborist:: remove entry from deep arrays', (t) => {
   t.equal(result.blarg, 'this should remain', 'blarg should remain');
 });
 
+test('arborist:: remove entry from deep arrays', (t) => {
+
+  let data = {
+    lvl1: {
+      bar: 23,
+      lvl2: {
+        arr: [
+          {
+            props: [
+              {nested: true, color: 'red'},
+              {nested: false, color: 'orange'},
+              {nested: false, color: '{{delete:2}}'}
+            ]
+          }
+        ]
+      }
+    },
+    arr: [
+      {thing: 'one'}, {thing: 'two'}
+    ],
+    blarg: 'this should remain'
+  };
+  let result = arborist(data);
+  t.plan(4);
+  t.notDeepLooseEqual(result.lvl1, data.lvl1, 'lvl1 should not be the same as data.lvl1');
+  t.equal(result.arr.length, 2, 'array should have 2 entry');
+  t.equal(result.lvl1.lvl2.arr[0].props, undefined, 'arr[0] should not have a props property');
+  t.equal(result.blarg, 'this should remain', 'blarg should remain');
+});
+
 test('arborist:: remove grandparent from array entry', (t) => {
 
   let data = {

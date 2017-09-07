@@ -1,6 +1,10 @@
+/**
+ * Simple helper that will initiatize esm and execute the tape tests
+ * directly against the ES6 soruce
+ */
+
 require = require("@std/esm")(module);
-require('./shouldKeepProperty.tape')
+
+// add tape modules here
 require('./arborist.tape')
-// require('./adlib.strings.tape')
-// require('./adlib.object.tape')
-// require('./adlib.array.tape')
+require('./adlib.tape')
