@@ -1,5 +1,5 @@
 import test from 'tape';
-import {arborist, getPropertyValue} from '../lib//optional-transform/arborist';
+import {arborist, getPropertyValue, pruneArray, pruneObject} from '../lib//optional-transform/arborist';
 
 test('arborist::exists', (t) => {
   t.plan(1);
@@ -7,11 +7,22 @@ test('arborist::exists', (t) => {
 });
 
 
-test('getPropertyValue:: returns non-string value', (t) => {
-  let data = 23;
-  let result = getPropertyValue(data);
+test('getPropertyValue:: returns numeric value', (t) => {
+  let result = getPropertyValue(23);
   t.plan(1);
-  t.equal(result, data, 'should return non-string value');
+  t.equal(result, 23, 'should return numeric value');
+});
+
+test('getPropertyValue:: returns 0 value', (t) => {
+  let result = getPropertyValue(0);
+  t.plan(1);
+  t.equal(result, 0, 'should return 0 value');
+});
+
+test('getPropertyValue:: returns bool value', (t) => {
+  let result = getPropertyValue(true);
+  t.plan(1);
+  t.equal(result, true, 'should return bool value');
 });
 
 test('getPropertyValue:: returns string value', (t) => {
@@ -21,62 +32,160 @@ test('getPropertyValue:: returns string value', (t) => {
   t.equal(result, data, 'should return string value');
 });
 
-test('getPropertyValue:: returns decremented value', (t) => {
+test('getPropertyValue:: returns same delete value', (t) => {
   let data = '{{delete:7}}';
   let result = getPropertyValue(data);
   t.plan(1);
-  t.equal(result, '{{delete:6}}', 'should decrement delete level');
+  t.equal(result, '{{delete:7}}', 'should not modify delete level');
 });
 
-test('getPropertyValue:: returns null if level === 0', (t) => {
+test('getPropertyValue:: returns undefined if level === 0', (t) => {
   let data = '{{delete:0}}';
   let result = getPropertyValue(data);
   t.plan(1);
   t.equal(result, undefined, 'val should be undefined');
 });
-//
-//
-// test('pruneArray::exists', (t) => {
-//   t.plan(1);
-//   t.ok(pruneArray);
-// });
-//
-//
-// test('pruneArray:: returns flat array', (t) => {
-//   let data = [1,2,3];
-//   let result = pruneArray(data);
-//   t.plan(2);
-//   t.ok(result.keep, 'keep should be true');
-//   t.deepLooseEqual(result.val, data, 'should return data');
-// });
-//
-// test('pruneArray:: returns object array', (t) => {
-//   let data = [{type:'cat'}, {type:'dog'}];
-//   let result = pruneArray(data);
-//   t.plan(2);
-//   t.ok(result.keep, 'keep should be true');
-//   t.deepLooseEqual(result.val, data, 'should return data');
-// });
-//
-// test('pruneArray:: removes entry object array', (t) => {
-//   let data = [{type:'cat'}, {type:'{{delete:0}}'}];
-//   let result = pruneArray(data);
-//   t.plan(4);
-//   t.ok(result.keep, 'keep should be true');
-//   t.notDeepLooseEqual(result.val, [{type:'cat'}], 'should return data');
-//   t.equal(result.val.length, 1, 'should have one entry');
-//   t.equal(result.val[0].type, 'cat');
-// });
-//
-// test('pruneArray:: removes prop on array obj if delete:0', (t) => {
-//   let data = [{type:'cat', color:'gray'}, {type:'{{delete:0}}', color:'orange'}];
-//   let result = pruneArray(data);
-//   t.plan(3);
-//   t.ok(result.keep, 'keep should be true');
-//   t.equal(result.val.length, 2, 'should return 2 entries');
-//   t.equal(result.val[1].color, 'orange', 'other props remain');
-// });
 
+test('pruneArray::exists', (t) => {
+  t.plan(1);
+  t.ok(pruneArray);
+});
+
+test('pruneArray:: returns array of numbers', (t) => {
+  let data = [1,2,3];
+  let result = pruneArray(data);
+  t.plan(1);
+  t.equal(result, data);
+});
+
+test('pruneArray:: returns array of objects', (t) => {
+  let data = [
+    {nested: true, color: 'red'},
+    {nested: false, color: 'orange'},
+    {nested: false, color: 'brown'}
+  ];
+  let result = pruneArray(data);
+  t.plan(1);
+  t.equal(result, data);
+});
+
+test('pruneArray:: returns array of objects', (t) => {
+  let data = [
+    {nested: true, color: 'red'},
+    {nested: false, color: 'orange'},
+    {nested: false, color: 'brown'}
+  ];
+  let result = pruneArray(data);
+  t.plan(1);
+  t.equal(result, data);
+});
+
+test('pruneArray:: returns [] if delete:0', (t) => {
+  let data = [
+    {nested: true, color: 'red'},
+    {nested: false, color: 'orange'},
+    '{{delete:0}}'
+  ];
+  let result = pruneArray(data);
+  t.plan(1);
+  t.looseEqual(result, [], 'should return an empty array');
+});
+
+test('pruneArray:: returns {{delete:0}} if delete:1', (t) => {
+  let data = [
+    {nested: true, color: 'red'},
+    {nested: false, color: 'orange'},
+    '{{delete:1}}'
+  ];
+  let result = pruneArray(data);
+  t.plan(1);
+  t.equal(result, '{{delete:0}}', 'should return an delete:0');
+});
+
+test('pruneArray:: returns {{delete:7}} if delete:8', (t) => {
+  let data = [
+    {nested: true, color: 'red'},
+    {nested: false, color: 'orange'},
+    '{{delete:8}}'
+  ];
+  let result = pruneArray(data);
+  t.plan(1);
+  t.equal(result, '{{delete:7}}', 'should return an delete:7');
+})
+
+test('pruneObject::exists', (t) => {
+  t.plan(1);
+  t.ok(pruneObject);
+});
+
+test('pruneObject:: returns object if no {{delete:NNN}} props', (t) => {
+  let data =  {
+    nested: true,
+    color: 'red',
+    nested: {
+      object: {
+        is: {
+          cool: true
+        }
+      }
+    },
+    arr: [1,2,3]
+  };
+  let result = pruneObject(data);
+  t.plan(1);
+  t.deepLooseEqual(result, data, 'should return the object');
+});
+
+test('pruneObject:: returns object w/o prop with {{delete:0}}', (t) => {
+  let data =  {
+    nested: true,
+    color: 'red',
+    nuker: '{{delete:0}}',
+    arr: [1,2,3]
+  };
+  let result = pruneObject(data);
+  t.plan(4);
+  t.equal(result.nested, data.nested);
+  t.equal(result.nuker, undefined, 'nuker prop should be removed');
+  t.equal(result.color, data.color);
+  t.deepLooseEqual(result.arr, data.arr);
+});
+
+test('pruneObject:: returns undefined when prop with {{delete:1}}', (t) => {
+  let data =  {
+    nested: true,
+    color: 'red',
+    nuker: '{{delete:1}}',
+    arr: [1,2,3]
+  };
+  let result = pruneObject(data);
+  t.plan(1);
+  t.equal(result, undefined, 'should return undefined');
+});
+
+test('pruneObject:: returns {{delete:7}} w/o prop with {{delete:8}}', (t) => {
+  let data =  {
+    nested: true,
+    color: 'red',
+    nuker: '{{delete:8}}',
+    arr: [1,2,3]
+  };
+  let result = pruneObject(data);
+  t.plan(1);
+  t.equal(result, '{{delete:7}}', 'should return delete:7');
+});
+
+test('pruneObject:: returns maximum deletion level', (t) => {
+  let data =  {
+    nested: true,
+    color: '{{delete:5}}',
+    nuker: '{{delete:8}}',
+    arr: [1,2,3]
+  };
+  let result = pruneObject(data);
+  t.plan(1);
+  t.equal(result, '{{delete:7}}', 'should return delete:7');
+});
 
 test('arborist::should return a normal object', (t) => {
   let data = {
@@ -178,7 +287,7 @@ test('arborist:: remove array entry', (t) => {
       }
     },
     arr: [
-      {thing: 'one'}, {thing: '{{delete:0}}'}
+      {thing: 'one'}, {thing: '{{delete:1}}'}
     ],
     blarg: 'this should remain'
   };
