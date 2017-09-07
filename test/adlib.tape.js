@@ -468,7 +468,7 @@ test('Adlib::Optional:: missing optional array entry is removed', (t) => {
   t.end();
 });
 
-test.only('Adlib::Optional:: example case', (t) => {
+test('Adlib::Optional:: example case', (t) => {
 
   let template = {
     someProp: 'red',
