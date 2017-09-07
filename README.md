@@ -150,3 +150,90 @@ let transforms = {
 let result = adlib(template, settings, transforms);
 //> result.value = 'string returned from translation system'
 ```
+
+## Built-in Transforms
+
+`adlib` comes with some built-in transforms:
+- optional - declare a value to be optional
+
+### Optional Transform
+
+`{{key.path:optional:<levelToRemove>}}`
+
+By default, if the key is not found, `adlib` simply leaves the `{{key.path}}` in the output json. However, that can/will lead to problems when the json is consumed.
+
+The `optional` transform helps out in these scenarios. By default when `adlib` encounters something like:
+```
+{
+  someProp: 'red'
+  val: '{{key.path:optional}}'
+}
+```
+
+and `key.path` is `null` or `undefined`, the `val` property will simply be removed.
+
+```
+{
+  someProp: 'red'
+}
+```
+
+The same thing works in arrays
+
+```
+{
+  someProp: 'red'
+  vals: [
+    'red',
+    '{{key.path:optional}}'
+  ]
+}
+
+// returns
+{
+  someProp: 'red'
+  vals: [
+    'red',
+  ]
+}
+
+```
+
+However, there are times when simply removing the property/entry is not enough. Sometimes you need to "reach up" the object graph and remove a parent. This is where the `levelToRemove` comes in...
+
+```
+let template = {
+  someProp: 'red',
+  operationalLayers: [
+    {
+      url: `{{layers.pipes.url}}`,
+      fields: [
+        {
+          key: 'direction',
+          fieldName: `{{layers.pipes.directionField:optional:3}}`
+        }
+      ]
+    }
+  ]
+};
+let settings = {
+  layers: {
+    pipes: {
+      url: 'http://someserver.com/23'
+    }
+  }
+};
+// will returns
+{
+  someProp: 'red'
+  operationalLayers: []
+}
+```
+### levelToRemove
+
+| value | removes what |
+| --- | --- |
+| 0 (default) | the property or array entry |
+| 1 | the parent object/array |
+| 2 | the grand-parent object/array |
+| ... | ... up the hiearchy |

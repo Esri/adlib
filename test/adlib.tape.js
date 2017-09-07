@@ -437,7 +437,7 @@ test('Adlib::Optional:: missing optional output prop is removed', (t) => {
   t.end();
 });
 
-test.only('Adlib::Optional:: missing optional array entry is removed', (t) => {
+test('Adlib::Optional:: missing optional array entry is removed', (t) => {
 
   let template = {
     value:'{{s.color}}',
@@ -465,5 +465,36 @@ test.only('Adlib::Optional:: missing optional array entry is removed', (t) => {
   t.ok(result.value);
   t.equal(result.value, 'brown');
   t.equal(result.arr.length, 1, 'array should have one entry');
+  t.end();
+});
+
+test.only('Adlib::Optional:: example case', (t) => {
+
+  let template = {
+    someProp: 'red',
+    operationalLayers: [
+      {
+        url: `{{layers.pipes.url}}`,
+        fields: [
+          {
+            key: 'direction',
+            fieldName: `{{layers.pipes.directionField:optional:3}}`
+          }
+        ]
+      }
+    ]
+  };
+  let settings = {
+    layers: {
+      pipes: {
+        url: 'http://someserver.com/23'
+      }
+    }
+  };
+  let result = adlib(template, settings);
+  t.plan(3);
+  t.ok(result.someProp);
+  t.equal(result.someProp, 'red');
+  t.equal(result.operationalLayers.length, 0, 'array should have no entry');
   t.end();
 });
