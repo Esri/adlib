@@ -1,5 +1,5 @@
 /**
-* adlib - v1.0.0 - Tue Sep 19 2017 15:17:26 GMT-0600 (MDT)
+* adlib - v1.0.0 - Tue Sep 19 2017 15:17:29 GMT-0600 (MDT)
 * Copyright (c) 2017 Dave Bouwman / Esri
 * Apache-2.0
 */
@@ -6577,4 +6577,4 @@ function adlib(template, settings, transforms) {
 return adlib;
 
 })));
-//# sourceMappingURL=adlib.umd.js.map
+//# sourceMappingURL=adlib.js.map
