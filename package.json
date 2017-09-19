@@ -1,6 +1,6 @@
 {
   "name": "adlib",
-  "version": "0.2.0",
+  "version": "1.0.0",
   "description": "Templating for deep JSON object graphs",
   "main": "dist/adlib.umd.js",
   "browser": "dist/adlib.min.js",
@@ -10,7 +10,8 @@
     "clean": "rm -rf dist",
     "build": "rollup -c profiles/dev.js",
     "build:release": "rollup -c profiles/dev.js && rollup -c profiles/prod.js && cp ./dist/* ./docs/js",
-    "test": "mocha"
+    "test": "node test/duct.js",
+    "test:compiled": "mocha test/*.spec.js"
   },
   "repository": {
     "type": "git",
@@ -40,7 +41,16 @@
     "url": "https://github.com/ArcGIS/adlib/issues"
   },
   "homepage": "https://arcgis.github.io/ember-arcgis-adlib-service",
-  "dependencies": {},
+  "@std/esm": {
+    "esm": "all"
+  },
+  "dependencies": {
+    "@std/esm": "^0.7.1",
+    "lodash.assignin": "^4.2.0",
+    "lodash.get": "^4.4.2",
+    "lodash.map": "^4.6.0",
+    "lodash.mapvalues": "^4.6.0"
+  },
   "devDependencies": {
     "babel-cli": "^6.24.1",
     "babel-core": "^6.24.1",
@@ -59,7 +69,6 @@
     "eslint-plugin-promise": "^2.0.1",
     "eslint-plugin-react": "^6.2.0",
     "eslint-plugin-standard": "^2.0.0",
-    "lodash-es": "^4.17.4",
     "mocha": "^3.3.0",
     "rollup": "^0.41.6",
     "rollup-plugin-babel": "^2.7.1",

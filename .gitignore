@@ -39,3 +39,6 @@ jspm_packages
 
 # build output
 dist
+
+# @std/esm cache
+.esm-cache
