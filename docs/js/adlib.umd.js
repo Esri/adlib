@@ -1,5 +1,5 @@
 /**
-* adlib - v0.2.0 - Mon Sep 18 2017 16:01:09 GMT-0600 (MDT)
+* adlib - v1.0.0 - Tue Sep 19 2017 09:17:41 GMT-0600 (MDT)
 * Copyright (c) 2017 Dave Bouwman / Esri
 * Apache-2.0
 */
