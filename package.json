@@ -1,6 +1,6 @@
 {
   "name": "adlib",
-  "version": "1.0.0",
+  "version": "0.2.0",
   "description": "Templating for deep JSON object graphs",
   "main": "dist/adlib.umd.js",
   "browser": "dist/adlib.min.js",
