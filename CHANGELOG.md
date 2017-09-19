@@ -2,7 +2,7 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-# Unreleased
+# 1.0.1
 ### Added
 - un-minfied build output `adlib.js`
 - renamed `profiles/dev.js` --> `profiles/umd.js` as it's actually doing umd builds
