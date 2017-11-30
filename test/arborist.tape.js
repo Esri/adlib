@@ -58,6 +58,13 @@ test('pruneArray:: returns array of numbers', (t) => {
   t.equal(result, data);
 });
 
+test('pruneArray:: returns array of numbers with falsey values', (t) => {
+  let data = [255,0,303,0, false, true];
+  let result = pruneArray(data);
+  t.plan(1);
+  t.equal(result, data);
+});
+
 test('pruneArray:: returns array of objects', (t) => {
   let data = [
     {nested: true, color: 'red'},
@@ -129,7 +136,7 @@ test('pruneObject:: returns object if no {{delete:NNN}} props', (t) => {
         }
       }
     },
-    arr: [1,2,3]
+    arr: [1,2,3,0,1]
   };
   let result = pruneObject(data);
   t.plan(1);
@@ -141,7 +148,7 @@ test('pruneObject:: returns object w/o prop with {{delete:0}}', (t) => {
     nested: true,
     color: 'red',
     nuker: '{{delete:0}}',
-    arr: [1,2,3]
+    arr: [1,2,3,0,1]
   };
   let result = pruneObject(data);
   t.plan(4);
@@ -156,7 +163,7 @@ test('pruneObject:: returns undefined when prop with {{delete:1}}', (t) => {
     nested: true,
     color: 'red',
     nuker: '{{delete:1}}',
-    arr: [1,2,3]
+    arr: [1,2,3,0,1]
   };
   let result = pruneObject(data);
   t.plan(1);
@@ -168,7 +175,7 @@ test('pruneObject:: returns {{delete:7}} w/o prop with {{delete:8}}', (t) => {
     nested: true,
     color: 'red',
     nuker: '{{delete:8}}',
-    arr: [1,2,3]
+    arr: [1,2,3,0,1]
   };
   let result = pruneObject(data);
   t.plan(1);
@@ -180,7 +187,7 @@ test('pruneObject:: returns maximum deletion level', (t) => {
     nested: true,
     color: '{{delete:5}}',
     nuker: '{{delete:8}}',
-    arr: [1,2,3]
+    arr: [1,2,3,0,1]
   };
   let result = pruneObject(data);
   t.plan(1);
@@ -191,7 +198,8 @@ test('arborist::should return a normal object', (t) => {
   let data = {
     foo: {
       bar: 23,
-      baz: 'red'
+      baz: 'red',
+      isFalse: false
     }
   };
   let result = arborist(data);
@@ -203,7 +211,8 @@ test('arborist::should return a normal object with array property', (t) => {
   let data = {
     foo: {
       bar: 23,
-      baz: 'red'
+      baz: 'red',
+      isFalse: false
     },
     arr: [
       {thing: 'one'}, {thing: 'two'}
@@ -219,7 +228,8 @@ test('arborist:: should drop prop with {{delete:0}} val', (t) => {
   let data = {
     foo: {
       bar: 23,
-      baz: 'red'
+      baz: 'red',
+      isFalse: false
     },
     blarg: '{{delete:0}}'
   };
@@ -233,7 +243,8 @@ test('arborist:: return undefined for object with {{delete:1}} property', (t) =>
   let data = {
     foo: {
       bar: 23,
-      baz: 'red'
+      baz: 'red',
+      isFalse: false
     },
     blarg: '{{delete:1}}'
   };
@@ -246,7 +257,8 @@ test('arborist:: remove foo property', (t) => {
   let data = {
     foo: {
       bar: 23,
-      baz: '{{delete:1}}'
+      baz: '{{delete:1}}',
+      isFalse: false
     },
     blarg: 'this should remain'
   };

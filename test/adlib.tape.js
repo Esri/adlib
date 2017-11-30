@@ -291,6 +291,28 @@ test('Adlib::Arrays:: should replace tokens within an array with strings', (t) =
   t.equal(result.values[2], 'brown');
 })
 
+test('Adlib::Arrays:: should not remove falsy values', (t) => {
+
+  let template = {
+    values: ['{{s.animal}}', 'fuzzy','{{s.color}}'],
+    color: [255,0,0,230]
+  };
+  let settings = {
+    s: {
+      animal: 'bear',
+      color: 'brown'
+    }
+  };
+  let result = adlib(template, settings);
+  t.plan(5);
+  t.ok(result.values);
+  t.ok(result.color);
+  console.info(JSON.stringify(result));
+  t.equal(result.values[0], 'bear');
+  t.equal(result.values[2], 'brown');
+  t.equal(result.color.length, 4);
+})
+
 test('Adlib::Arrays:: should replace tokens within an array with objects', (t) => {
   t.plan(1);
   let template = {
