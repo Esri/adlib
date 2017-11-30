@@ -1,5 +1,5 @@
 /**
-* adlib - v1.0.1 - Thu Nov 30 2017 10:41:39 GMT-0700 (MST)
+* adlib - v1.1.0 - Thu Nov 30 2017 13:45:15 GMT-0700 (MST)
 * Copyright (c) 2017 Dave Bouwman / Esri
 * Apache-2.0
 */
@@ -6275,17 +6275,13 @@ function isRegExp (v) {
 function deepMapValues(object, callback, propertyPath) {
   propertyPath = propertyPath || '';
   if(Array.isArray(object)){
-    // console.log(`mapping over ${propertyPath}...`);
     return lodash_map(object, deepMapValuesIteratee);
   }
   else if(object && isObject$1(object) && !isDate(object) && !isRegExp(object) && !isFunction$1(object)){
-    console.log(("looking at " + propertyPath + "..."));
     return lodash_assignin({}, object, lodash_mapvalues(object, deepMapValuesIteratee));
   }
   else{
-
     var output = callback(object, propertyPath);
-    console.log(("returning " + (JSON.stringify(output)) + " for path " + propertyPath + "..."));
     return output;
   }
 
