@@ -2,6 +2,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+# 1.1.1
+### Fixed
+- removed rogue console statements
+
 # 1.1.0
 ### Fixed
 - falsey values were being incorrectly omitted from arrays - i.e. `[255,0,0,155]` would return as `[255,155]`
