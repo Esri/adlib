@@ -1,5 +1,5 @@
 /**
-* adlib - v1.0.0 - Tue Sep 19 2017 15:17:26 GMT-0600 (MDT)
+* adlib - v1.0.1 - Thu Nov 30 2017 10:41:39 GMT-0700 (MST)
 * Copyright (c) 2017 Dave Bouwman / Esri
 * Apache-2.0
 */
@@ -6279,16 +6279,18 @@ function deepMapValues(object, callback, propertyPath) {
     return lodash_map(object, deepMapValuesIteratee);
   }
   else if(object && isObject$1(object) && !isDate(object) && !isRegExp(object) && !isFunction$1(object)){
-    // console.log(`looking at ${propertyPath}...`);
+    console.log(("looking at " + propertyPath + "..."));
     return lodash_assignin({}, object, lodash_mapvalues(object, deepMapValuesIteratee));
   }
   else{
-    // console.log(`recursing on ${propertyPath}...`);
-    return callback(object, propertyPath);
+
+    var output = callback(object, propertyPath);
+    console.log(("returning " + (JSON.stringify(output)) + " for path " + propertyPath + "..."));
+    return output;
   }
 
   function deepMapValuesIteratee(value, key){
-    var valuePath = propertyPath ? propertyPath + '.' + key: key;
+    var valuePath = propertyPath ? propertyPath + '.' + key : key;
     return deepMapValues(value, callback, valuePath);
   }
 }
@@ -6311,9 +6313,10 @@ function arborist (object, propertyPath) {
   propertyPath = propertyPath || '';
 
   if(Array.isArray(object)){
-
-    var arrResults = object.map(iteratee).filter(function (e) {
-      return e;  // remove any nulls
+    // filter out any nulls...
+    var arrResults = object.map(iteratee).filter(function (entry) {
+      // need to ensure entry is actually NULL vs just falsey
+      return entry !== null && entry !== undefined;
     });
     return pruneArray(arrResults);
 
