@@ -35,7 +35,7 @@ test('Adlib::Strings:: should return a deep copy of the template', (t) => {
     foo: 'bar',
     baz: ['one', 'two']
   };
-  let result = adlib(template, {});
+  let result = adlib(template, {foo:'bar'});
   t.notEqual(template, result, 'result should not deeply equal the template');
   // ensure that changing the result DOES NOT change the template
   result.check = 'wat';

@@ -45,11 +45,7 @@
     "esm": "all"
   },
   "dependencies": {
-    "@std/esm": "^0.7.1",
-    "lodash.assignin": "^4.2.0",
-    "lodash.get": "^4.4.2",
-    "lodash.map": "^4.6.0",
-    "lodash.mapvalues": "^4.6.0"
+    "@std/esm": "^0.7.1"
   },
   "devDependencies": {
     "babel-cli": "^6.24.1",
@@ -77,6 +73,7 @@
     "rollup-plugin-filesize": "^1.2.1",
     "rollup-plugin-node-resolve": "^3.0.0",
     "rollup-plugin-uglify": "^1.0.2",
+    "tape": "^4.8.0",
     "watch": "^1.0.2"
   }
 }

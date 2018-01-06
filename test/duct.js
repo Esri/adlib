@@ -6,5 +6,8 @@
 require = require("@std/esm")(module);
 
 // add tape modules here
+require('./getWithDefault.tape')
+require('./mapvalues.tape')
 require('./arborist.tape')
 require('./adlib.tape')
+// require('./deepmap.tape')
