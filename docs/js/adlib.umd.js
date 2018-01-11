@@ -1,5 +1,5 @@
 /**
-* adlib - v1.1.1 - Sat Jan 06 2018 10:54:01 GMT-0800 (PST)
+* adlib - v2.0.0 - Thu Jan 11 2018 07:31:06 GMT-0700 (MST)
 * Copyright (c) 2018 Dave Bouwman / Esri
 * Apache-2.0
 */
@@ -12,12 +12,12 @@
 /**
  * Return the value of a deep property, using a path.
  */
-function getWithDefault (obj, path, def) {
-  if ( def === void 0 ) def = undefined;
+function getWithDefault (obj, path, defaultValue) {
+  if ( defaultValue === void 0 ) defaultValue = undefined;
 
   return path
     .split('.')
-    .reduce(function (o, p) { return o ? o[p] : def; }, obj)
+    .reduce(function (o, p) { return o ? o[p] : defaultValue; }, obj)
 }
 
 /**
@@ -35,6 +35,9 @@ function mapValues (obj, fn) {
   return newObject;
 }
 
+/**
+ * Deep Map over the values in an object
+ */
 function isDate (v) {
    return v instanceof Date
  }
@@ -268,34 +271,33 @@ function isString(v) {
 }
 
 function _swap(parameter, settings, transforms) {
-
-    var value;
-    // Parameters can optionally call transform functions
-    // e.g. "{{ipsum:translateLatin}}"
-    // so extract {{<parameter>:<transformFunction>:<key||value>}}
-    var transformCheck = parameter.split(':');
-    if (transformCheck.length > 1) {
-      // we have a request to use a transform...
-      var key = transformCheck[0];
-      var fn = transformCheck[1];
-      // we default to using the value...
-      var param = null;
-      if (transformCheck[2]){
-        param = transformCheck[2];
-      }
-      if(transforms && transforms[fn] && typeof transforms[fn] === 'function') {
-        // get the value from the param
-        value = getWithDefault(settings, key);
-        // transform it...
-        value = transforms[fn](key, value, settings, param);
-      } else {
-        throw new Error(("Attempted to apply non-existant transform " + fn + " on " + key + " with params " + param));
-      }
-    } else {
-      // we just get the value
-      value = getWithDefault(settings, parameter);
+  var value;
+  // Parameters can optionally call transform functions
+  // e.g. "{{ipsum:translateLatin}}"
+  // so extract {{<parameter>:<transformFunction>:<key||value>}}
+  var transformCheck = parameter.split(':');
+  if (transformCheck.length > 1) {
+    // we have a request to use a transform...
+    var key = transformCheck[0];
+    var fn = transformCheck[1];
+    // we default to using the value...
+    var param = null;
+    if (transformCheck[2]){
+      param = transformCheck[2];
     }
-    return value;
+    if(transforms && transforms[fn] && typeof transforms[fn] === 'function') {
+      // get the value from the param
+      value = getWithDefault(settings, key);
+      // transform it...
+      value = transforms[fn](key, value, settings, param);
+    } else {
+      throw new Error(("Attempted to apply non-existant transform " + fn + " on " + key + " with params " + param));
+    }
+  } else {
+    // we just get the value
+    value = getWithDefault(settings, parameter);
+  }
+  return value;
 }
 
 // Combine a Template with Settings
@@ -309,48 +311,48 @@ function adlib(template, settings, transforms) {
     transforms.optional = optional;
   }
 
-    var res = deepMapValues(template, function(templateValue, templatePath){
-        // Only string templates
-        if (!isString(templateValue)) {
-          return templateValue;
-        }
+  var res = deepMapValues(template, function(templateValue, templatePath){
+    // Only string templates
+    if (!isString(templateValue)) {
+      return templateValue;
+    }
 
-        // When we match "{{layer.fields..}}"
-        var settingsValue;
-        var replaceValue = false;
-        var handlebars = /{{([\w\.\:]+)}}/g;
-        var match = templateValue.match(handlebars);
+    // When we match "{{layer.fields..}}"
+    var settingsValue;
+    var replaceValue = false;
+    var handlebars = /{{([\w\.\:]+)}}/g;
+    var match = templateValue.match(handlebars);
 
-        if (match && match.length) {
-          var values = match.map(function (entry) {
-            var path = entry.replace(/{|}/g, '');
-            return {
-              key: entry,
-              value: _swap(path, settings, transforms) || entry
-            };
-          });
-          values.forEach(function (v) {
-            if (templateValue == v.key) {
-              settingsValue = v.value;
-            } else {
-              var re = new RegExp(v.key, 'g');
-              templateValue = templateValue.replace(re, v.value);
-            }
-          });
-
-          // if we have a value, let's return that...
-          if (settingsValue) {
-            return settingsValue;
-          } else {
-            // but if we don't, lets return the template itself
-            return templateValue;
-          }
+    if (match && match.length) {
+      var values = match.map(function (entry) {
+        var path = entry.replace(/{|}/g, '');
+        return {
+          key: entry,
+          value: _swap(path, settings, transforms) || entry
+        };
+      });
+      values.forEach(function (v) {
+        if (templateValue == v.key) {
+          settingsValue = v.value;
         } else {
-          // no match, return the templateValue...
-          return templateValue;
+          var re = new RegExp(v.key, 'g');
+          templateValue = templateValue.replace(re, v.value);
         }
-    });
-    return arborist(res);
+      });
+
+      // if we have a value, let's return that...
+      if (settingsValue) {
+        return settingsValue;
+      } else {
+        // but if we don't, lets return the template itself
+        return templateValue;
+      }
+    } else {
+      // no match, return the templateValue...
+      return templateValue;
+    }
+  });
+  return arborist(res);
 }
 
 return adlib;
