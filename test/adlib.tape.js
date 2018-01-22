@@ -520,3 +520,104 @@ test('Adlib::Optional:: example case', (t) => {
   t.equal(result.operationalLayers.length, 0, 'array should have no entry');
   t.end();
 });
+
+test('Adlib::Hierarchies:: templates can specify a value hierarchy and will prefer the value of the higher match (specified earliest in a "|"-delimited list)', (t) => {
+  let template = {
+    timestamp: 'This Item was last modified at {{metadata.some.fantasticTimestamp.that.is.deeply.nested:toISO||item.modified:toISO}}'
+  }
+
+  var item = {
+    metadata: {
+      some: {
+        fantasticTimestamp: {
+          that: {
+            is: {
+              deeply: {
+                nested: '1401836376836'
+              }
+            }
+          }
+        }
+      }
+    },
+    item: {
+      modified: '1505836376836'
+    }
+  }
+
+  var transforms = {
+    toISO: function (key, val, settings) {
+      if (val) {
+        return new Date(parseInt(val)).toISOString()
+      }
+    }
+  }
+
+  let result = adlib(template, item, transforms)
+
+  t.plan(1);
+  t.equal(result.timestamp, 'This Item was last modified at 2014-06-03T22:59:36.836Z')
+  t.end();
+})
+
+test('Adlib::Hierarchies:: templates can match on less-than-first choices', (t) => {
+  let template = {
+    timestamp: 'This Item was last modified at {{metadata.modified:toISO||server.lastEdited:toISO||item.modified:toISO}}'
+  }
+
+  var item = {
+    metadata: {
+    },
+    server: {
+      lastEdited: '1481236376836'
+    },
+    item: {
+      modified: '1505836376836'
+    }
+  }
+
+  var transforms = {
+    toISO: function (key, val, settings) {
+      if (val) {
+        return new Date(parseInt(val)).toISOString()
+      }
+    }
+  }
+
+  let result = adlib(template, item, transforms)
+
+  t.plan(1);
+  t.equal(result.timestamp, 'This Item was last modified at 2016-12-08T22:32:56.836Z')
+  t.end();
+})
+
+test('Adlib::Hierarchies:: templates can match on the last choice', (t) => {
+  let template = {
+    timestamp: 'This Item was last modified at {{metadata.modified:toISO||server.lastEdited:toISO||item.modified:toISO}}'
+  }
+
+  var item = {
+    metadata: {
+    },
+    server: {
+      lastEdited: undefined
+    },
+    item: {
+      modified: '1505836376836'
+    }
+  }
+
+  var transforms = {
+    toISO: function (key, val, settings) {
+      if (val) {
+        return new Date(parseInt(val)).toISOString()
+      }
+    }
+  }
+
+  let result = adlib(template, item, transforms)
+
+  t.plan(1);
+  t.equal(result.timestamp, 'This Item was last modified at 2017-09-19T15:52:56.836Z')
+  t.end();
+})

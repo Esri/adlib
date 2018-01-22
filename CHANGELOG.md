@@ -2,6 +2,9 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+### Added
+- ability to specify a hierarchy of possible values in order of preference in a template, e.g. `this dataset was last modified {{metadata.some.nested.timestamp||item.modified}}`
+
 # 2.0.0
 ### Changed
 - removed lodash depencencies. Public API remains the same, and all existing tests pass. Should be a drop-in replacement, but bumped to 2.0.0 because we removed the deps which others may be using indirectly.
