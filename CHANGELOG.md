@@ -2,6 +2,7 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+# 2.1.0
 ### Added
 - ability to specify a hierarchy of possible values in order of preference in a template, e.g. `this dataset was last modified {{metadata.some.nested.timestamp||item.modified}}`
 
