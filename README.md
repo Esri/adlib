@@ -237,3 +237,82 @@ let settings = {
 | 1 | the parent object/array |
 | 2 | the grand-parent object/array |
 | ... | ... up the hiearchy |
+
+
+### Path Hierarchies
+
+Sometimes you may want to adlib a value using one of several possible data sources. You can specify each data source in a hierarchy of preference in the template
+
+```
+let template = {
+  dataset: {
+    title: {{layer.name||item.title}},
+    modified: {{metadata.some.super.nested.value.bc.im.a.weird.xml.doc:toISO||item.modified:toISO}},
+    tags: {{metadata.categories||item.tags}}
+  } 
+}
+
+let settings = {
+  metadata: {
+    categories: [
+      'citations',
+      'civil offense',
+      'misdemeanor'
+    ],
+    some: {
+      super: {
+        nested: {
+          value: {
+            bc: {
+              im: {
+                a: {
+                  weird: {
+                    xml: {
+                      doc: '1505836376836'  
+                    }  
+                  }  
+                }  
+              }  
+            }  
+          }  
+        }  
+      }  
+    }
+  },
+  item: {
+    title: '2014 Parking Violations',
+    tags: [
+      'Parking',
+      'Washington',
+      'Citations',
+      'Crimes',
+      'Law Enforcement',
+      'Nuisance',
+      'Cars'
+    ]
+  },
+  layer: {}
+}
+
+let transforms = {
+  toISO: function (key, val, settings) {
+    if (isStringAndNotADateValue(val)) {
+      return new Date(val).toISOString()
+    }   
+  }  
+}
+
+adlib(template, settings, transforms)
+// => returns
+{
+  dataset: {
+    title: '2014 Parking Violations',
+    modified: '2017-09-19T15:52:56.836Z',
+    tags: [
+      'citations',
+      'civil offense',
+      'misdemeanor'
+    ]
+  }
+}
+```
