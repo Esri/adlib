@@ -1,5 +1,5 @@
 /**
-* adlib - v2.0.0 - Thu Jan 11 2018 07:31:06 GMT-0700 (MST)
+* adlib - v2.1.0 - Tue Jan 23 2018 17:04:30 GMT-0500 (EST)
 * Copyright (c) 2018 Dave Bouwman / Esri
 * Apache-2.0
 */
@@ -320,22 +320,43 @@ function adlib(template, settings, transforms) {
     // When we match "{{layer.fields..}}"
     var settingsValue;
     var replaceValue = false;
-    var handlebars = /{{([\w\.\:]+)}}/g;
+    var handlebars = /{{([\w\.\:(||)?]+)}}/g;
     var match = templateValue.match(handlebars);
 
     if (match && match.length) {
       var values = match.map(function (entry) {
         var path = entry.replace(/{|}/g, '');
+        // checking if there were multiple paths specified
+        // If so, take the value of the path that matches first
+        // in order from left to right.
+        //
+        // e.g.
+        //
+        // {{special.value||backup.value}}
+        //
+        // we will prefer the value @ 'special.value' but if it is not
+        // there we will take the value @ 'backup.value'
+        if (path.indexOf('||') !== -1) {
+          var paths = path.split('||');
+          path = paths.find(function (pathOption) {
+            var v = getWithDefault(settings, pathOption.split(':')[0], null);
+            return v !== null && v !== undefined
+          });
+        }
+
         return {
           key: entry,
-          value: _swap(path, settings, transforms) || entry
+          value: _swap(path, settings, transforms)|| entry
         };
       });
       values.forEach(function (v) {
         if (templateValue == v.key) {
           settingsValue = v.value;
         } else {
-          var re = new RegExp(v.key, 'g');
+          // a little extra regex dance to match the '||' because '|'
+          // is a Very Special Regex Character and we need to super
+          // escape them for the regex to work
+          var re = new RegExp(v.key.replace(/\|\|/gi, '\\|\\|'));
           templateValue = templateValue.replace(re, v.value);
         }
       });
