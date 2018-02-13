@@ -624,7 +624,7 @@ test('Adlib::Hierarchies:: templates can match on the last choice', (t) => {
 
 test('Adlib::Hierarchies:: last choice can be a static string', (t) => {
   let template = {
-    msg: 'Jack is {{obj.happy||obj.sad||OLD}} and {{Happy with Laura}}'
+    msg: 'Luke is {{obj.mood||happy}} with {{obj.friend||Jabba}}'
   }
 
   var settings = {}
@@ -632,7 +632,7 @@ test('Adlib::Hierarchies:: last choice can be a static string', (t) => {
   let result = adlib(template, settings)
 
   t.plan(1);
-  t.equal(result.msg, 'Jack is OLD and Happy with Laura');
+  t.equal(result.msg, 'Luke is happy with Jabba');
   t.end();
 })
 
@@ -652,7 +652,7 @@ test('Adlib::Hierarchies:: last choice can be a static url', (t) => {
 
 test('Adlib::Hierarchies:: last choice can be a int', (t) => {
   let template = {
-    msg: 'Jack is {{obj.happy||obj.sad||68}}',
+    msg: 'Luke is {{obj.happy||obj.sad||68}}',
     val: '{{obj.age||68}}'
   }
 
@@ -661,14 +661,14 @@ test('Adlib::Hierarchies:: last choice can be a int', (t) => {
   let result = adlib(template, settings)
 
   t.plan(2);
-  t.equal(result.msg, 'Jack is 68');
+  t.equal(result.msg, 'Luke is 68');
   t.equal(result.val, 68, 'should return as a int');
   t.end();
 })
 
 test('Adlib::Hierarchies:: last choice can be a float', (t) => {
   let template = {
-    msg: 'Jack is {{obj.happy||obj.sad||68.345}}',
+    msg: 'Luke is {{obj.happy||obj.sad||68.345}}',
     val: '{{obj.age||68.345}}'
   }
 
@@ -677,7 +677,7 @@ test('Adlib::Hierarchies:: last choice can be a float', (t) => {
   let result = adlib(template, settings)
 
   t.plan(2);
-  t.equal(result.msg, 'Jack is 68.345');
+  t.equal(result.msg, 'Luke is 68.345');
   t.equal(result.val, 68.345, 'should return as a float');
   t.end();
 })
