@@ -249,7 +249,7 @@ let template = {
     title: {{layer.name||item.title}},
     modified: {{metadata.some.super.nested.value.bc.im.a.weird.xml.doc:toISO||item.modified:toISO}},
     tags: {{metadata.categories||item.tags}}
-  } 
+  }
 }
 
 let settings = {
@@ -315,4 +315,24 @@ adlib(template, settings, transforms)
     ]
   }
 }
+```
+
+### Path Hierarchies with Defaults
+
+If none of the paths are available, the last entry can be a static value and that will be returned.
+We support returning strings ('RED', 'the red fox'), ints (23, 15), and floats (12.3, 0.234)
+
+**Note** Transforms can not be applied to the default value!
+Please see TODO.md for notes about changes required for this.
+
+```
+let template = {
+  msg: 'Site is at {{obj.mainUrl||obj.otherUrl||https://foo.bar?o=p&e=n}}'
+}
+
+var settings = {}
+
+let result = adlib(template, settings);
+// => returns
+// 'Site is at https://foo.bar?o=p&e=n'
 ```
