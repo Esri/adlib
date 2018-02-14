@@ -1,5 +1,5 @@
 /**
-* adlib - v2.2.1 - Wed Feb 14 2018 15:31:06 GMT-0700 (MST)
+* adlib - v2.2.1 - Wed Feb 14 2018 15:39:44 GMT-0700 (MST)
 * Copyright (c) 2018 Dave Bouwman / Esri
 * Apache-2.0
 */
@@ -336,7 +336,6 @@ function adlib(template, settings, transforms) {
     var settingsValue;
     var replaceValue = false;
 
-    // var handlebars = /{{[\S\s]*?}}/g;
     var handlebars = /{{[\w\.\:||&\/?=]*?}}/g;
     var hbsEntries = templateValue.match(handlebars);
 
@@ -409,8 +408,8 @@ function adlib(template, settings, transforms) {
           // a little extra regex dance to match the '||' because '|'
           // is a Very Special Regex Character and we need to super
           // escape them for the regex to work
-          console.log(("KEY " + (v.key)));
-          console.log(("TEMPLATE " + templateValue));
+          // console.log(`KEY ${v.key}`);
+          // console.log(`TEMPLATE ${templateValue}`);
           templateValue = templateValue.replace(v.key, v.value);
           // console.log(`template did not match key, interpolating value ${v.value} into template to produce ${templateValue}`);
         }
