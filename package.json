@@ -9,13 +9,13 @@
     "init": "mkdir dist",
     "clean": "rm -rf dist",
     "build": "rollup -c profiles/dev.js",
-    "build:release": "rollup -c profiles/umd.js && rollup -c profiles/prod.js && rollup -c profiles/dev.js && cp ./dist/* ./docs/js",
+    "build:release": "rollup -c profiles/umd.js && rollup -c profiles/prod.js && rollup -c profiles/dev.js",
     "test": "node test/duct.js",
     "test:compiled": "mocha test/*.spec.js"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ArcGIS/adlib.git"
+    "url": "git+https://github.com/Esri/adlib.git"
   },
   "keywords": [
     "arcgis",
@@ -38,7 +38,7 @@
   ],
   "license": "Apache-2.0",
   "bugs": {
-    "url": "https://github.com/ArcGIS/adlib/issues"
+    "url": "https://github.com/Esri/adlib/issues"
   },
   "homepage": "https://arcgis.github.io/ember-arcgis-adlib-service",
   "@std/esm": {
