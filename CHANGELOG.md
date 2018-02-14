@@ -2,6 +2,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+# 2.2.0
+### Added
+- support for `default` values like `Hello my name is {{obj.name||Slim Shady}}`. If `obj.name` is undefined, the default value is used.
+
 # 2.1.1
 ### Fixed
 - issue with build of 2.1.0

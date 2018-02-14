@@ -621,3 +621,87 @@ test('Adlib::Hierarchies:: templates can match on the last choice', (t) => {
   t.equal(result.timestamp, 'This Item was last modified at 2017-09-19T15:52:56.836Z')
   t.end();
 })
+
+test('Adlib::Hierarchies:: last choice can be a static string', (t) => {
+  let template = {
+    msg: 'Luke is {{obj.mood||happy}} with {{obj.friend||Jabba}}'
+  }
+
+  var settings = {}
+
+  let result = adlib(template, settings)
+
+  t.plan(1);
+  t.equal(result.msg, 'Luke is happy with Jabba');
+  t.end();
+})
+
+test('Adlib::Hierarchies:: last choice can be a static url', (t) => {
+  let template = {
+    msg: 'Site is at {{obj.mainUrl||obj.otherUrl||https://foo.bar?o=p&e=n}}'
+  }
+
+  var settings = {}
+
+  let result = adlib(template, settings)
+
+  t.plan(1);
+  t.equal(result.msg, 'Site is at https://foo.bar?o=p&e=n');
+  t.end();
+})
+
+test('Adlib::Hierarchies:: last choice can be a int', (t) => {
+  let template = {
+    msg: 'Luke is {{obj.happy||obj.sad||68}}',
+    val: '{{obj.age||68}}'
+  }
+
+  var settings = {}
+
+  let result = adlib(template, settings)
+
+  t.plan(2);
+  t.equal(result.msg, 'Luke is 68');
+  t.equal(result.val, 68, 'should return as a int');
+  t.end();
+})
+
+test('Adlib::Hierarchies:: last choice can be a float', (t) => {
+  let template = {
+    msg: 'Luke is {{obj.happy||obj.sad||68.345}}',
+    val: '{{obj.age||68.345}}'
+  }
+
+  var settings = {}
+
+  let result = adlib(template, settings)
+
+  t.plan(2);
+  t.equal(result.msg, 'Luke is 68.345');
+  t.equal(result.val, 68.345, 'should return as a float');
+  t.end();
+})
+
+test('Adlib::Hierarchies:: last choice can be timestamp', (t) => {
+  let template = {
+    msg: 'Created on {{obj.created:toISO||obj.modified:toISO||1469803210000}}',
+    val: '{{obj.age||1469803210000}}'
+  }
+
+  var settings = {}
+
+  var transforms = {
+    toISO: function (key, val, settings) {
+      if (val) {
+        return new Date(parseInt(val)).toISOString()
+      }
+    }
+  }
+
+  let result = adlib(template, settings, transforms)
+
+  t.plan(2);
+  t.equal(result.msg, 'Created on 1469803210000');
+  t.equal(result.val, 1469803210000, 'should return as a number');
+  t.end();
+})
