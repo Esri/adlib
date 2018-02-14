@@ -16,7 +16,7 @@ test('AdLib:: Throws if optional transform passed in', (t)=>{
   t.throws(() => adlib(template, {}, transforms));
 });
 
-test('AdLib:: Does not throws if transform passed in', (t)=>{
+test('AdLib:: Does not throw if other transform passed in', (t)=>{
   let template = {
     foo: 'bar',
     baz: ['one', 'two']
@@ -61,6 +61,24 @@ test('Adlib::Strings:: should replace a simple path with a string', (t) => {
   t.end();
 })
 
+test('Adlib::Strings:: allow info-window template to pass through', (t) => {
+
+  let template = {
+    value: '{{thing.value}}',
+    description: 'Injuries: {CRASHID}<br />Fatalities: {ISREPORTONSCENE}'
+  };
+  let settings = {
+    thing: {
+      value: 'red'
+    }
+  };
+  let result = adlib(template, settings);
+  t.plan(2);
+  t.equal(result.value, 'red');
+  t.equal(result.description, template.description);
+  t.end();
+})
+
 test('Adlib::Strings:: should replace a path within a larger string', (t) => {
   t.plan(1);
   let template = {
@@ -74,6 +92,23 @@ test('Adlib::Strings:: should replace a path within a larger string', (t) => {
   let result = adlib(template, settings);
 
   t.equal(result.value, 'The value is red');
+  t.end();
+})
+
+test('Adlib::Strings:: should allow triple curlies and leave the outer set', (t) => {
+
+  let template = {
+    description: 'Injuries: {{{thing.injuriesField}}}<br />Fatalities: {{{thing.fatalField}}}'
+  };
+  let settings = {
+    thing: {
+      fatalField: 'FATALCOUNT',
+      injuriesField: 'INJCOUNT'
+    }
+  };
+  let result = adlib(template, settings);
+  t.plan(1);
+  t.equal(result.description, 'Injuries: {INJCOUNT}<br />Fatalities: {FATALCOUNT}');
   t.end();
 })
 
