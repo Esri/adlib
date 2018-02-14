@@ -1,5 +1,5 @@
 /**
-* adlib - v2.2.0 - Wed Feb 14 2018 13:59:36 GMT-0700 (MST)
+* adlib - v2.2.1 - Wed Feb 14 2018 15:39:46 GMT-0700 (MST)
 * Copyright (c) 2018 Dave Bouwman / Esri
 * Apache-2.0
 */
@@ -336,7 +336,7 @@ function adlib(template, settings, transforms) {
     var settingsValue;
     var replaceValue = false;
 
-    var handlebars = /{{[\S\s]*?}}/g;
+    var handlebars = /{{[\w\.\:||&\/?=]*?}}/g;
     var hbsEntries = templateValue.match(handlebars);
 
     if (hbsEntries && hbsEntries.length) {
