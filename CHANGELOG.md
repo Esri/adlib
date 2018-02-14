@@ -3,14 +3,16 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 
-# 2.2.1
+# 2.2.2
 ### Fixed
 - we had a regression where `{{{obj.val}}}` was not coming out as `{TheValue}` which means info window templating was broken. Also Regex--
 
-
-# 2.2.0
+# 2.2.1
 ### Added
 - support for `default` values like `Hello my name is {{obj.name||Slim Shady}}`. If `obj.name` is undefined, the default value is used.
+
+# 2.2.0
+Yanked
 
 # 2.1.1
 ### Fixed
