@@ -685,6 +685,51 @@ test('Adlib::Hierarchies:: last choice can be a static url', (t) => {
   t.end();
 })
 
+test('Adlib::Hierarchies:: last choice can be a static url with odd chars', (t) => {
+  let template = {
+    msg: 'Site is at {{obj.mainUrl||obj.otherUrl||https://foo.bar/path/deep/_(wat)_/123?o=p&e=n}}'
+  }
+
+  var settings = {}
+
+  let result = adlib(template, settings)
+
+  t.plan(1);
+  t.equal(result.msg, 'Site is at https://foo.bar/path/deep/_(wat)_/123?o=p&e=n');
+  t.end();
+})
+
+
+
+test('Adlib::Hierarchies:: last choice can be a static url with unicode', (t) => {
+  let template = {
+    msg: 'Site is at {{obj.mainUrl||obj.otherUrl||http://example.com/スター・ウォーズ×マンガ/}}'
+  }
+
+  var settings = {}
+
+  let result = adlib(template, settings)
+
+  t.plan(1);
+  t.equal(result.msg, 'Site is at http://example.com/スター・ウォーズ×マンガ/');
+  t.end();
+})
+
+test('Adlib::Hierarchies:: last choice can be a static url with emoji', (t) => {
+  let template = {
+    msg: 'Site is at {{obj.mainUrl||obj.otherUrl||🏹.to/id7g}}'
+  }
+
+  var settings = {}
+
+  let result = adlib(template, settings)
+
+  t.plan(1);
+  t.equal(result.msg, 'Site is at 🏹.to/id7g');
+  t.end();
+})
+
+
 test('Adlib::Hierarchies:: last choice can be a int', (t) => {
   let template = {
     msg: 'Luke is {{obj.happy||obj.sad||68}}',
