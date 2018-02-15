@@ -1,11 +1,23 @@
-# Adlib
+# adlib
 
-A library for interpolating property values in JSON Objects.
+[![npm version][npm-img]][npm-url]
+[![build status][travis-img]][travis-url]
+[![apache licensed](https://img.shields.io/badge/license-Apache-green.svg?style=flat-square)](https://raw.githubusercontent.com/Esri/adlib/master/LICENSE)
 
-The Hub team uses this to create customized Web Maps, Hub Sites, Hub Pages and other types of items.
+[npm-img]: https://img.shields.io/npm/v/adlib.svg?style=flat-square
+[npm-url]: https://www.npmjs.com/package/adlib
+[travis-img]: https://img.shields.io/travis/Esri/adlib/master.svg?style=flat-square
+[travis-url]: https://travis-ci.org/Esri/adlib
+
+> A library for interpolating property values in JSON Objects.
+
+The [ArcGIS Hub](https://hub.arcgis.com) team uses adlib to create customized Web Maps, Hub Sites, Hub Pages and other items in ArcGIS Online.
+
+[Live Demo](https://arcgis.github.io/ember-arcgis-adlib-service/)
 
 # General Pattern
-```
+
+```js
 template: {
   val: '{{thing.val}}'
 };
@@ -30,7 +42,7 @@ If the `obj.prop` "path" in the settings object is a string, that string value i
 ## Multiple Strings
 A property of a template can have a value like `'The {{thing.animal}} was {{thing.color}}'`. When combined with a settings object that has the appropriate values, this will result in `The fox was brown`.
 
-```
+```js
 let template = {
   value: 'The {{thing.animal}} was {{thing.color}}'
 };
@@ -43,10 +55,12 @@ let settings = {
 let result = adlib(template, settings);
 //> {value: 'The fox was red'}
 ```
+
 ## Objects
+
 If the interpolated value is an object, it is returned. This allow us to graft trees of json together.
 
-```
+```js
 let template = {
   value: '{{s.obj}}'
 };
@@ -64,7 +78,7 @@ let result = adlib(template, settings);
 ## Arrays
 If the interpolated value is an array, it is returned. Interpolation is also done within arrays.
 
-```
+```js
 let template = {
   values: ['{{s.animal}}', 'fuzzy', '{{s.color}}'],
   names: '{{s.names}}'
@@ -84,7 +98,7 @@ let result = adlib(template, settings);
 ## Transforms
 Adlib can apply transforms during the interpolation. The transform fn should have the following signature: `fn(key, value, settings)`.
 
-```
+```js
 // Pattern
 // {{key:transformFnName}}
 
@@ -100,18 +114,16 @@ let settings = {
 // key: s.animal.type
 // value: 'bear'
 // transformFnName: 'upcase'
-
 ```
 
 ### Notes About Transforms
-- Transforms are ideally pure functions, and they **must** be sync functions! Promises are not supported.  
+- Transforms are ideally pure functions, and they **must** be sync functions! Promises are not supported.
 - Transform functions should be VERY resilient - we recommend unit testing them extensively
 - If your settings hash does not have an entry for the `key`, the `value` will be `null`.
 
-
 ### Transforms
 
-```
+```js
 let template = {
   value:'{{s.animal.type:upcase}}'
 };
@@ -135,7 +147,7 @@ let result = adlib(template, settings, transforms);
 ### Transforms using the Key
 A typical use-case for this is for translation.
 
-```
+```js
 let template = {
   value:'{{s.animal.type:translate}}'
 };
@@ -163,7 +175,8 @@ let result = adlib(template, settings, transforms);
 By default, if the key is not found, `adlib` simply leaves the `{{key.path}}` in the output json. However, that can/will lead to problems when the json is consumed.
 
 The `optional` transform helps out in these scenarios. By default when `adlib` encounters something like:
-```
+
+```js
 {
   someProp: 'red'
   val: '{{key.path:optional}}'
@@ -172,7 +185,7 @@ The `optional` transform helps out in these scenarios. By default when `adlib` e
 
 and `key.path` is `null` or `undefined`, the `val` property will simply be removed.
 
-```
+```js
 {
   someProp: 'red'
 }
@@ -180,7 +193,7 @@ and `key.path` is `null` or `undefined`, the `val` property will simply be remov
 
 The same thing works in arrays
 
-```
+```js
 {
   someProp: 'red'
   vals: [
@@ -201,7 +214,7 @@ The same thing works in arrays
 
 However, there are times when simply removing the property/entry is not enough. Sometimes you need to "reach up" the object graph and remove a parent. This is where the `levelToRemove` comes in...
 
-```
+```js
 let template = {
   someProp: 'red',
   operationalLayers: [
@@ -229,6 +242,7 @@ let settings = {
   operationalLayers: []
 }
 ```
+
 ### levelToRemove
 
 | value | removes what |
@@ -238,12 +252,11 @@ let settings = {
 | 2 | the grand-parent object/array |
 | ... | ... up the hiearchy |
 
-
 ### Path Hierarchies
 
 Sometimes you may want to adlib a value using one of several possible data sources. You can specify each data source in a hierarchy of preference in the template
 
-```
+```js
 let template = {
   dataset: {
     title: {{layer.name||item.title}},
@@ -268,15 +281,15 @@ let settings = {
                 a: {
                   weird: {
                     xml: {
-                      doc: '1505836376836'  
-                    }  
-                  }  
-                }  
-              }  
-            }  
-          }  
-        }  
-      }  
+                      doc: '1505836376836'
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   item: {
@@ -298,8 +311,8 @@ let transforms = {
   toISO: function (key, val, settings) {
     if (isStringAndNotADateValue(val)) {
       return new Date(val).toISOString()
-    }   
-  }  
+    }
+  }
 }
 
 adlib(template, settings, transforms)
@@ -325,7 +338,7 @@ We support returning strings ('RED', 'the red fox'), ints (23, 15), and floats (
 **Note** Transforms can not be applied to the default value!
 Please see TODO.md for notes about changes required for this.
 
-```
+```js
 let template = {
   msg: 'Site is at {{obj.mainUrl||obj.otherUrl||https://foo.bar?o=p&e=n}}'
 }
@@ -336,3 +349,31 @@ let result = adlib(template, settings);
 // => returns
 // 'Site is at https://foo.bar?o=p&e=n'
 ```
+
+### Local Development
+
+```
+npm install && npm test
+```
+
+### Contributing
+
+Esri welcomes contributions from anyone and everyone. Please see our [guidelines for contributing](https://github.com/Esri/contributing/blob/master/CONTRIBUTING.md).
+
+### License
+
+Copyright 2017 Esri
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+> http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+A copy of the license is available in the repository's [LICENSE](./LICENSE) file.
