@@ -9,28 +9,30 @@
 [travis-img]: https://img.shields.io/travis/Esri/adlib/master.svg?style=flat-square
 [travis-url]: https://travis-ci.org/Esri/adlib
 
-> A library for interpolating property values in JSON Objects.
+> A JavaScript library for interpolating property values in JSON Objects.
 
-The [ArcGIS Hub](https://hub.arcgis.com) team uses adlib to create customized Web Maps, Hub Sites, Hub Pages and other items in ArcGIS Online.
+The [ArcGIS Hub](https://hub.arcgis.com) team uses adlib to build Web Maps, Hub Sites, Hub Pages and other newly created ArcGIS Online content using customer [Open Data](https://hub.arcgis.com/pages/open-data) on the fly.
 
-[Live Demo](https://arcgis.github.io/ember-arcgis-adlib-service/)
+To get a feel for how adlib works, check out this [Live Demo](https://arcgis.github.io/ember-arcgis-adlib-service/)!
 
 # General Pattern
 
 ```js
-template: {
-  val: '{{thing.val}}'
+const template: {
+  value: '{{ instance.color }}'
 };
-settings: {
-  thing: {
-    val: 'red'
+
+const settings: {
+  instance: {
+    color: 'red'
   }
 };
-result = adlib(template, settings);
-// > {val: 'red'}
+
+const result = adlib(template, settings);
+// > { value: 'red' }
 ```
 
-**Note** Adlib does not mutate the template, it returns a new object that contains copies of the template properties, with interpolations applied. This allows the template to be used multiple times in succession with different settings hashes.
+**Note** Adlib does not mutate the template, it returns a new object that contains copies of the template properties with interpolations applied. This allows the template to be used multiple times in succession with different settings hashes.
 
 # Supported Interpolations
 
