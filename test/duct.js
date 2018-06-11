@@ -3,7 +3,7 @@
  * directly against the ES6 soruce
  */
 
-require = require("@std/esm")(module);
+require = require("esm")(module);
 
 // add tape modules here
 require('./getWithDefault.tape')

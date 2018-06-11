@@ -172,10 +172,10 @@ describe('adlib ::', () => {
         }
       };
       let result = adlib(template, settings);
-      expect(result.value.val).to.be.defined;
+      expect(result.value.val).not.to.be.undefined;
       expect(result.value.val).to.equal('red');
       expect(typeof result.emptyObj).to.equal('object');
-      expect(result.emptyObj).to.be.defined;
+      expect(result.emptyObj).not.to.be.undefined;
     })
 
     it('should preserve nulls', () => {
@@ -191,7 +191,7 @@ describe('adlib ::', () => {
         }
       };
       let result = adlib(template, settings);
-      expect(result.value.val).to.be.defined;
+      expect(result.value.val).not.to.be.undefined;
       expect(result.value.val).to.equal('red');
       expect(result.nullThing).to.equal(null);
     })
@@ -208,7 +208,7 @@ describe('adlib ::', () => {
         }
       };
       let result = adlib(template, settings);
-      expect(result.value.val).to.be.defined;
+      expect(result.value.val).not.to.be.undefined;
       expect(result.value.val).to.equal('red');
     })
     it('should replace a deep token with an deep object', () => {
@@ -227,7 +227,7 @@ describe('adlib ::', () => {
         }
       };
       let result = adlib(template, settings);
-      expect(result.value.val).to.be.defined;
+      expect(result.value.val).not.to.be.undefined;
       expect(result.value.val).to.equal('red');
     })
   });
@@ -246,7 +246,7 @@ describe('adlib ::', () => {
         }
       };
       let result = adlib(template, settings);
-      expect(result.values).to.be.defined;
+      expect(result.values).not.to.be.undefined;
       expect(result.values[0]).to.equal('bear');
       expect(result.values[2]).to.equal('brown');
     })
@@ -279,7 +279,7 @@ describe('adlib ::', () => {
         }
       };
       let result = adlib(template, settings);
-      expect(result.values).to.be.defined;
+      expect(result.values).not.to.be.undefined;
       expect(Array.isArray(result.values)).to.be.true;
       expect(result.values[1]).to.equal('panda');
     });
@@ -302,7 +302,7 @@ describe('adlib ::', () => {
         }
       }
       let result = adlib(template, settings, transforms);
-      expect(result.values).to.be.defined;
+      expect(result.values).not.to.be.undefined;
       expect(Array.isArray(result.values)).to.be.true;
       expect(result.values[1]).to.equal('PANDA');
     });
@@ -324,7 +324,7 @@ describe('adlib ::', () => {
         }
       };
       let result = adlib(template, settings, transforms);
-      expect(result.value).to.be.defined;
+      expect(result.value).not.to.be.undefined;
       expect(result.value).to.equal('BEARbrown');
     });
 
@@ -343,7 +343,7 @@ describe('adlib ::', () => {
         }
       };
       let result = adlib(template, settings, transforms);
-      expect(result.value).to.be.defined;
+      expect(result.value).not.to.be.undefined;
       expect(result.value).to.equal('S.ANIMAL.TYPE');
     })
 
@@ -362,7 +362,7 @@ describe('adlib ::', () => {
         }
       };
       let result = adlib(template, settings, transforms);
-      expect(result.value).to.be.defined;
+      expect(result.value).not.to.be.undefined;
       expect(result.value).to.equal('S.ANIMAL.TYPE is brown');
     })
   })

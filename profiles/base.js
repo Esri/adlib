@@ -10,13 +10,15 @@ const copyright = `/**
 */`;
 
 export default {
-  entry: `lib/${pkg.name}.js`,
-  moduleName: pkg.name,
-  format: 'umd',
+  input: `lib/${pkg.name}.js`,
+  output: {
+    format: 'umd',
+    name: pkg.name,
+    banner: copyright
+  },
   plugins: [
     nodeResolve({ main: true }),
     commonjs(),
     buble()
-  ],
-  banner: copyright
+  ]
 };
