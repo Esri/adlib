@@ -2,6 +2,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+# 2.2.5
+### Changed
+- upgraded build/test dependencies to eliminate possible vulnerabilities with `growl < 1.10.0`
+
 # 2.2.4
 ### Fixed
 - allow more chars in templates - now allows for `{{{foo.bar||http://s.com/123/_(foo)_/ウォ/🏹.?b=c&d=f}}}`
