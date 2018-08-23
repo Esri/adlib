@@ -1,6 +1,6 @@
 
 import test from 'tape';
-import adlib, { listDependencies } from '../lib/adlib';
+import adlib from '../lib/adlib';
 
 test('AdLib:: Throws if optional transform passed in', (t)=>{
   let template = {
@@ -81,19 +81,15 @@ test('Adlib::Strings:: allow info-window template to pass through', (t) => {
 
 test('Adlib::listDependencies:: parse dependecies from a string', (t) => {
   const template = 'Injuries: {{CRASHID}}<br />Fatalities: {{ISREPORTONSCENE}} Foo: {{CRASHID}}'
-  const deps = listDependencies(template);
-  t.equal(deps[0], 'CRASHID');
-  t.equal(deps[1], 'ISREPORTONSCENE');
-  t.equal(deps.length, 2)
+  const deps = new Set(adlib.listDependencies(template));
+  t.deepEqual(deps, new Set('CRASHID', 'ISREPORTONSCENE'));
   t.end();
 })
 
 test('Adlib::listDependencies:: parse dependecies from an object', (t) => {
   const template = {key: 'Injuries: {{CRASHID}}<br />Fatalities: {{ISREPORTONSCENE}} Foo: {{CRASHID}}'}
-  const deps = listDependencies(template);
-  t.equal(deps[0], 'CRASHID');
-  t.equal(deps[1], 'ISREPORTONSCENE');
-  t.equal(deps.length, 2)
+  const deps = new Set(adlib.listDependencies(template));
+  t.deepEqual(deps, new Set('CRASHID', 'ISREPORTONSCENE'));
   t.end();
 })
 

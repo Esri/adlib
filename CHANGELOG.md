@@ -4,7 +4,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## Unreleased
 ### Added
-- listDependencies function to list all variables in a template
+- adlib.listDependencies function to list all variables in a template
 
 # 2.2.5
 ### Changed

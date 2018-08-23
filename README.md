@@ -17,9 +17,9 @@ To get a feel for how adlib works, check out this [Live Demo](https://arcgis.git
 
 ## API
 ```js
-import adlib, { listDependencies } from 'adlib'
+import adlib from 'adlib'
 adlib(template, settings) // renders an adlib template
-listDependencies(template) // list all dependecies of an adlib template
+adlib.listDependencies(template) // list all dependecies of an adlib template
 
 ```
 
