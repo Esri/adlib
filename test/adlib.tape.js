@@ -86,6 +86,13 @@ test('Adlib::listDependencies:: parse dependecies from a string', (t) => {
   t.end();
 })
 
+test('Adlib::listDependencies:: parse dependecies from a string with transforms', (t) => {
+  const template = 'Injuries: {{CRASHID}}:toIso<br />Fatalities: {{ISREPORTONSCENE}} Foo: {{CRASHID}}'
+  const deps = new Set(adlib.listDependencies(template));
+  t.deepEqual(deps, new Set('CRASHID', 'ISREPORTONSCENE'));
+  t.end();
+})
+
 test('Adlib::listDependencies:: parse dependecies from an object', (t) => {
   const template = {key: 'Injuries: {{CRASHID}}<br />Fatalities: {{ISREPORTONSCENE}} Foo: {{CRASHID}}'}
   const deps = new Set(adlib.listDependencies(template));
