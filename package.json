@@ -2,7 +2,7 @@
   "name": "adlib",
   "version": "2.2.5",
   "description": "Templating for deep JSON object graphs",
-  "main": "dist/adlib.umd.js",
+  "main": "dist/adlib.js",
   "browser": "dist/adlib.min.js",
   "scripts": {
     "start": "npm run build && concurrently \"watch 'npm run build' lib\" \"mocha -w\"",

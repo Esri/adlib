@@ -2,6 +2,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## Unreleased
+### Added
+- listDependencies function to list all variables in a template
+
 # 2.2.5
 ### Changed
 - upgraded build/test dependencies to eliminate possible vulnerabilities with `growl < 1.10.0`
