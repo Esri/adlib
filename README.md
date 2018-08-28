@@ -15,6 +15,14 @@ The [ArcGIS Hub](https://hub.arcgis.com) team uses adlib to build Web Maps, Hub 
 
 To get a feel for how adlib works, check out this [Live Demo](https://arcgis.github.io/ember-arcgis-adlib-service/)!
 
+## API
+```js
+import adlib from 'adlib'
+adlib(template, settings) // renders an adlib template
+adlib.listDependencies(template) // list all dependecies of an adlib template
+
+```
+
 # General Pattern
 
 ```js
@@ -33,6 +41,13 @@ const result = adlib(template, settings);
 ```
 
 **Note** Adlib does not mutate the template, it returns a new object that contains copies of the template properties with interpolations applied. This allows the template to be used multiple times in succession with different settings hashes.
+
+# List dependencies
+Gets a list of all variables your template depends upon
+```js
+const template = 'Injuries: {{CRASHID}}<br />On Scene: {{ISREPORTONSCENE}}'
+const deps = listDependencies(template); // CRASHID, ISREPORTONSCNE
+```
 
 # Supported Interpolations
 
