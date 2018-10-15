@@ -2,6 +2,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## Unreleased
+### Fixed
+- changed regex pattern and added `trim` so that handlebars contents can include whitespace that will get ignored
+
 ## 2.3.0
 ### Added
 - adlib.listDependencies function to list all variables in a template

@@ -61,6 +61,22 @@ test('Adlib::Strings:: should replace a simple path with a string', (t) => {
   t.end();
 })
 
+test('Adlib::Strings:: should replace a simple path with a string templated with whitespace', (t) => {
+  t.plan(1);
+  let template = {
+    value: '{{ thing.value }}'
+  };
+  let settings = {
+    thing: {
+      value: 'red'
+    }
+  };
+  let result = adlib(template, settings);
+
+  t.equal(result.value, 'red');
+  t.end();
+})
+
 test('Adlib::Strings:: allow info-window template to pass through', (t) => {
 
   let template = {
@@ -613,6 +629,34 @@ test('Adlib::Hierarchies:: templates can specify a value hierarchy and will pref
 
   t.plan(1);
   t.equal(result.timestamp, 'This Item was last modified at 2014-06-03T22:59:36.836Z')
+  t.end();
+})
+
+test('Adlib::Hierarchies:: templates can specify a value hierarchy that includes whitespace', (t) => {
+  t.plan(1);
+  let template = {
+    value: 'The value is {{ thing.value || foo }}'
+  };
+  let settings = {
+    thing: {
+      value: 'red'
+    }
+  };
+  let result = adlib(template, settings);
+
+  t.equal(result.value, 'The value is red');
+  t.end();
+})
+
+test('Adlib::Hierarchies:: templates can properly default when value inclue whitespace', (t) => {
+  t.plan(1);
+  let template = {
+    value: 'The value is {{ thing.notExisting || foo }}'
+  };
+  let settings = {};
+  let result = adlib(template, settings);
+
+  t.equal(result.value, 'The value is foo');
   t.end();
 })
 
