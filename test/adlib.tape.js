@@ -648,7 +648,7 @@ test('Adlib::Hierarchies:: templates can specify a value hierarchy that includes
   t.end();
 })
 
-test('Adlib::Hierarchies:: templates can properly default when value inclue whitespace', (t) => {
+test('Adlib::Hierarchies:: templates can properly default when value includes whitespace', (t) => {
   t.plan(1);
   let template = {
     value: 'The value is {{ thing.notExisting || foo }}'
