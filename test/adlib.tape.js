@@ -28,7 +28,21 @@ test('AdLib:: Does not throw if other transform passed in', (t)=>{
   }
   t.plan(1);
   t.doesNotThrow(() => adlib(template, {}, transforms));
+
 });
+
+test('AdLib:: Does not throw if a transform is specified by there is no value', (t)=>{
+  let template = {
+    foo: '{{bar:toUpper}}',
+    baz: ['one', 'two']
+  };
+  let transforms = {};
+  t.plan(1);
+  t.doesNotThrow(() => adlib(template, {}));
+  // let result = adlib(template, {}, transforms);
+  // t.equal(result.foo, template.foo, 'template value should remain in json');
+});
+
 
 test('Adlib::Strings:: should return a deep copy of the template', (t) => {
   let template = {
