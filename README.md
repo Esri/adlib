@@ -46,7 +46,7 @@ const result = adlib(template, settings);
 Gets a list of all variables your template depends upon
 ```js
 const template = 'Injuries: {{CRASHID}}<br />On Scene: {{ISREPORTONSCENE}}'
-const deps = listDependencies(template); // CRASHID, ISREPORTONSCNE
+const deps = adlib.listDependencies(template); // CRASHID, ISREPORTONSCENE
 ```
 
 # Supported Interpolations
@@ -267,7 +267,7 @@ let settings = {
 | 0 (default) | the property or array entry |
 | 1 | the parent object/array |
 | 2 | the grand-parent object/array |
-| ... | ... up the hiearchy |
+| ... | ... up the hierarchy |
 
 ### Path Hierarchies
 
