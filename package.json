@@ -9,7 +9,8 @@
     "init": "mkdir dist",
     "clean": "rm -rf dist",
     "build": "rollup -c profiles/dev.js",
-    "build:release": "rollup -c profiles/umd.js && rollup -c profiles/prod.js && rollup -c profiles/dev.js",
+    "build:release": "rollup -c profiles/umd.js && rollup -c profiles/prod.js && rollup -c profiles/dev.js && cp ./lib/adlib.d.ts ./dist",
+    "build:tsc": "tsc --module umd",
     "test": "node test/duct.js",
     "test:compiled": "mocha test/*.spec.js",
     "chk": "yarn test && yarn build:release && yarn test:compiled"
@@ -49,6 +50,8 @@
     "esm": "^3.0.49"
   },
   "devDependencies": {
+    "@types/chai": "^4.1.7",
+    "@types/mocha": "^5.2.5",
     "babel-cli": "^6.24.1",
     "babel-core": "^6.24.1",
     "babel-plugin-transform-es2015-destructuring": "^6.23.0",
