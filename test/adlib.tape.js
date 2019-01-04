@@ -45,6 +45,17 @@ test('Adlib::Strings:: should return a deep copy of the template', (t) => {
   t.end();
 });
 
+test('Adlib::Strings:: should list dependency values in a template', (t) => {
+  let template = {
+    value: 'The {{thing.animal}} was {{thing.color}} but still a {{thing.animal}}'
+  };
+  let result = adlib.listDependencies(template);
+  t.equal(result.length, 2);
+  t.equal(result[0], 'thing.animal');
+  t.equal(result[1], 'thing.color');
+  t.end();
+});
+
 test('Adlib::Strings:: should replace a simple path with a string', (t) => {
   t.plan(1);
   let template = {
