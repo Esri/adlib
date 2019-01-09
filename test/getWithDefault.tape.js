@@ -1,7 +1,6 @@
 
 import test from 'tape';
-import getWithDefault from '../lib/getWithDefault';
-
+import { getWithDefault } from '../lib/getWithDefault';
 
 test('getWithDefault:: returns value', (t)=>{
   var users = {

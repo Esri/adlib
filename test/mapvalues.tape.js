@@ -1,7 +1,6 @@
 
 import test from 'tape';
-import mapValues from '../lib/mapValues';
-
+import { mapValues } from '../lib/mapValues';
 
 test('mapValues:: returns object if passed object', (t)=>{
   var users = {

@@ -5,12 +5,12 @@ import nodeResolve from 'rollup-plugin-node-resolve';
 const pkg = require('../package.json');
 const copyright = `/**
 * ${pkg.name} - v${pkg.version} - ${new Date().toString()}
-* Copyright (c) ${new Date().getFullYear()} ${pkg.author.name} / Esri
+* Copyright (c) 2017-${new Date().getFullYear()} ${pkg.author.name} / Esri
 * ${pkg.license}
 */`;
 
 export default {
-  input: `lib/${pkg.name}.js`,
+  input: `lib/index.js`,
   output: {
     format: 'umd',
     name: pkg.name,
