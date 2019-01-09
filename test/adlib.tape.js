@@ -49,7 +49,7 @@ test('Adlib::Strings:: should list dependency values in a template', (t) => {
   let template = {
     value: 'The {{thing.animal}} was {{thing.color}} but still a {{thing.animal}}'
   };
-  let result = adlib.listDependencies(template);
+  let result = listDependencies(template);
   t.equal(result.length, 2);
   t.equal(result[0], 'thing.animal');
   t.equal(result[1], 'thing.color');
