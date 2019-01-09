@@ -33,7 +33,7 @@ This package is distributed as a [UMD](https://github.com/umdjs/umd) module and 
 <script src="https://unpkg.com/adlib"></script>
 ```
 ```js
-adlib(template, settings)
+adlib.adlib(template, settings)
 adlib.listDependencies(template)
 ```
 
