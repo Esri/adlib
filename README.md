@@ -15,12 +15,26 @@ The [ArcGIS Hub](https://hub.arcgis.com) team uses adlib to build Web Maps, Hub 
 
 To get a feel for how adlib works, check out this [Live Demo](https://arcgis.github.io/ember-arcgis-adlib-service/)!
 
-## API
-```js
-import adlib from 'adlib'
-adlib(template, settings) // renders an adlib template
-adlib.listDependencies(template) // list all dependecies of an adlib template
+## Usage
 
+### ES Module
+```js
+import { adlib, listDependencies }  from 'adlib'
+
+adlib(template, settings) // renders an adlib template
+listDependencies(template) // list all dependecies of an adlib template
+```
+
+### Browser (from CDN)
+
+This package is distributed as a [UMD](https://github.com/umdjs/umd) module and can also be used in AMD based systems or as a global under the `adlib` namespace.
+
+```html
+<script src="https://unpkg.com/adlib"></script>
+```
+```js
+adlib(template, settings)
+adlib.listDependencies(template)
 ```
 
 # General Pattern
@@ -379,7 +393,7 @@ Esri welcomes contributions from anyone and everyone. Please see our [guidelines
 
 ### License
 
-Copyright 2017 Esri
+Copyright &copy; 2017-2019 Esri
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

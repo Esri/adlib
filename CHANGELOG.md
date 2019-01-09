@@ -2,6 +2,21 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 3.0.0
+### Breaking Changes
+- this library no longer mixes default and named [exports](https://rollupjs.org/guide/en#exporting).
+
+```js
+import { adlib } from "adlib";
+import { mapValues } from "adlib";
+
+// NOT
+// import adlib from "adlib";
+// import mapValues from "adlib";
+```
+
+Since `adlib` is the namespace for _all_ the functions we export, this means that UMD consumers will now call `adlib.adlib()`.
+
 ## 2.3.1
 ### Fixed
 - changed regex pattern and added `trim` so that handlebars contents can include whitespace that will get ignored

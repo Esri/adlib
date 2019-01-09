@@ -6,14 +6,13 @@
 let expect = require('chai').expect;
 let adlib = require('../dist/adlib.umd.js');
 
-
 describe('adlib ::', () => {
   it('should return a deep copy of the template', () => {
     let template = {
       foo: 'bar',
       baz: ['one', 'two']
     };
-    let result = adlib(template, {});
+    let result = adlib.adlib(template, {});
     expect(template).to.not.equal(result);
     // ensure that changing the result DOES NOT change the template
     result.check = 'wat';
@@ -45,7 +44,7 @@ describe('adlib ::', () => {
           value: 'red'
         }
       };
-      let result = adlib(template, settings);
+      let result = adlib.adlib(template, settings);
 
       expect(result.value).to.equal('red');
     })
@@ -59,7 +58,7 @@ describe('adlib ::', () => {
           value: 'red'
         }
       };
-      let result = adlib(template, settings);
+      let result = adlib.adlib(template, settings);
 
       expect(result.value).to.equal('The value is red');
     })
@@ -74,7 +73,7 @@ describe('adlib ::', () => {
           value: 'red'
         }
       };
-      let result = adlib(template, settings);
+      let result = adlib.adlib(template, settings);
 
       expect(result.value).to.equal('The value is red and red');
     })
@@ -88,7 +87,7 @@ describe('adlib ::', () => {
           value: 'red'
         }
       };
-      let result = adlib(template, settings);
+      let result = adlib.adlib(template, settings);
 
       expect(result.value).to.equal('The value is {{thing.novalue}} and red');
     })
@@ -107,7 +106,7 @@ describe('adlib ::', () => {
           }
         }
       };
-      let result = adlib(template, settings);
+      let result = adlib.adlib(template, settings);
 
       expect(result.value).to.equal('http://foo.com/apps/SummaryViewer/index.html?appid={{collisionViewer.item.id}}');
     })
@@ -122,7 +121,7 @@ describe('adlib ::', () => {
           animal: 'fox'
         }
       };
-      let result = adlib(template, settings);
+      let result = adlib.adlib(template, settings);
 
       expect(result.value).to.equal('The fox was red but still a fox');
     })
@@ -137,7 +136,7 @@ describe('adlib ::', () => {
           value: 'red'
         }
       };
-      let result = adlib(template, settings);
+      let result = adlib.adlib(template, settings);
 
       expect(result.value).to.equal('red');
       expect(result.v2).to.equal(template.v2);
@@ -162,7 +161,7 @@ describe('adlib ::', () => {
           }
         }
       };
-      let result = adlib(template, settings);
+      let result = adlib.adlib(template, settings);
       expect(result.l1.l2.l3.v).to.equal('green');
     });
   });
@@ -182,7 +181,7 @@ describe('adlib ::', () => {
           }
         }
       };
-      let result = adlib(template, settings);
+      let result = adlib.adlib(template, settings);
       expect(result.value.val).not.to.be.undefined;
       expect(result.value.val).to.equal('red');
       expect(typeof result.emptyObj).to.equal('object');
@@ -201,7 +200,7 @@ describe('adlib ::', () => {
           }
         }
       };
-      let result = adlib(template, settings);
+      let result = adlib.adlib(template, settings);
       expect(result.value.val).not.to.be.undefined;
       expect(result.value.val).to.equal('red');
       expect(result.nullThing).to.equal(null);
@@ -218,7 +217,7 @@ describe('adlib ::', () => {
           }
         }
       };
-      let result = adlib(template, settings);
+      let result = adlib.adlib(template, settings);
       expect(result.value.val).not.to.be.undefined;
       expect(result.value.val).to.equal('red');
     })
@@ -237,7 +236,7 @@ describe('adlib ::', () => {
           }
         }
       };
-      let result = adlib(template, settings);
+      let result = adlib.adlib(template, settings);
       expect(result.value.val).not.to.be.undefined;
       expect(result.value.val).to.equal('red');
     })
@@ -256,7 +255,7 @@ describe('adlib ::', () => {
           color: 'brown'
         }
       };
-      let result = adlib(template, settings);
+      let result = adlib.adlib(template, settings);
       expect(result.values).not.to.be.undefined;
       expect(result.values[0]).to.equal('bear');
       expect(result.values[2]).to.equal('brown');
@@ -274,7 +273,7 @@ describe('adlib ::', () => {
           color: 'brown'
         }
       };
-      let result = adlib(template, settings);
+      let result = adlib.adlib(template, settings);
       expect(result.values[0].type).to.equal('bear');
     });
 
@@ -289,7 +288,7 @@ describe('adlib ::', () => {
           ]
         }
       };
-      let result = adlib(template, settings);
+      let result = adlib.adlib(template, settings);
       expect(result.values).not.to.be.undefined;
       expect(Array.isArray(result.values)).to.be.true;
       expect(result.values[1]).to.equal('panda');
@@ -312,7 +311,7 @@ describe('adlib ::', () => {
           })
         }
       }
-      let result = adlib(template, settings, transforms);
+      let result = adlib.adlib(template, settings, transforms);
       expect(result.values).not.to.be.undefined;
       expect(Array.isArray(result.values)).to.be.true;
       expect(result.values[1]).to.equal('PANDA');
@@ -334,7 +333,7 @@ describe('adlib ::', () => {
           return val.toUpperCase() + settings.s.color;
         }
       };
-      let result = adlib(template, settings, transforms);
+      let result = adlib.adlib(template, settings, transforms);
       expect(result.value).not.to.be.undefined;
       expect(result.value).to.equal('BEARbrown');
     });
@@ -353,7 +352,7 @@ describe('adlib ::', () => {
           return key.toUpperCase();
         }
       };
-      let result = adlib(template, settings, transforms);
+      let result = adlib.adlib(template, settings, transforms);
       expect(result.value).not.to.be.undefined;
       expect(result.value).to.equal('S.ANIMAL.TYPE');
     })
@@ -372,7 +371,7 @@ describe('adlib ::', () => {
           return `${key.toUpperCase()} is ${settings.s.color}`;
         }
       };
-      let result = adlib(template, settings, transforms);
+      let result = adlib.adlib(template, settings, transforms);
       expect(result.value).not.to.be.undefined;
       expect(result.value).to.equal('S.ANIMAL.TYPE is brown');
     })
