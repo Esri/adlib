@@ -20,6 +20,17 @@ describe('adlib ::', () => {
     expect(result.foo).to.equal('bar');
     expect(result.foo).to.equal(template.foo);
   });
+
+  it('should list dependency values in a template', () => {
+    let template = {
+      value: 'The {{thing.animal}} was {{thing.color}} but still a {{thing.animal}}'
+    };
+    let result = adlib.listDependencies(template);
+    expect(result.length).to.equal(2);
+    expect(result[0]).to.equal('thing.animal');
+    expect(result[1]).to.equal('thing.color');
+  })
+
   /**
    * Lets play with strings!
    */
