@@ -37,6 +37,11 @@ adlib.adlib(template, settings)
 adlib.listDependencies(template)
 ```
 
+### TypeScript
+
+TypeScript definitions are available from [DefinitelyTyped](https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/types/adlib):
+`npm install --save-dev @types/adlib`
+
 # General Pattern
 
 ```js
