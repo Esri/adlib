@@ -30,6 +30,22 @@ test('AdLib:: Does not throw if other transform passed in', (t)=>{
   t.doesNotThrow(() => adlib(template, {}, transforms));
 });
 
+test('AdLib:: Does not modify transform object', (t)=>{
+  let template = {
+    foo: 'bar',
+    baz: ['one', 'two']
+  };
+  let transforms = {
+    someOther: function (k,v,s, p) {
+      return v;
+    }
+  };
+  t.plan(1);
+  adlib(template, {}, transforms);
+  t.notOk(transforms.optional);
+  t.end();
+});
+
 test('Adlib::Strings:: should return a deep copy of the template', (t) => {
   let template = {
     foo: 'bar',
