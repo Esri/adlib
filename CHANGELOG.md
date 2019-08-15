@@ -3,6 +3,7 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## 3.1.0
+### Fixed
 - perform a deep object clone of `transforms` so that the object passed in is not modified
 - initial value of the transform param is `undefined` instead of `null` so that the `level` arg is properly set to 0 for `optionalTransform`
 - correctly interpolate values that are empty strings
