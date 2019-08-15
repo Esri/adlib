@@ -569,7 +569,8 @@ test('Adlib::Optional:: missing optional array entry is removed', (t) => {
       {
         color: '{{s.color}}',
         props: '{{j.props:optional:1}}'
-      }
+      },
+      '{{j.props:optional}}'
     ]
   };
   let settings = {
