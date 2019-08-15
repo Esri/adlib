@@ -160,6 +160,21 @@ test('Adlib::Strings:: should allow triple curlies and leave the outer set', (t)
   t.end();
 })
 
+test('Adlib::Strings:: should replace a path with an empty string', (t) => {
+  t.plan(1);
+  let template = {
+    value: '{{thing.value}}'
+  };
+  let settings = {
+    thing: {
+      value: ''
+    }
+  };
+  let result = adlib(template, settings);
+
+  t.equal(result.value, '');
+  t.end();
+})
 
 test('Adlib::Strings:: should replace multiple instances within a larger string', (t) => {
   t.plan(1);
