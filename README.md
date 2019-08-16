@@ -396,6 +396,12 @@ npm install && npm test
 
 Esri welcomes contributions from anyone and everyone. Please see our [guidelines for contributing](https://github.com/Esri/contributing/blob/master/CONTRIBUTING.md).
 
+### Release
+
+```
+npm run build:release && npm publish
+```
+
 ### License
 
 Copyright &copy; 2017-2019 Esri
