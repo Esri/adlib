@@ -30,6 +30,22 @@ test('AdLib:: Does not throw if other transform passed in', (t)=>{
   t.doesNotThrow(() => adlib(template, {}, transforms));
 });
 
+test('AdLib:: Does not modify transform object', (t)=>{
+  let template = {
+    foo: 'bar',
+    baz: ['one', 'two']
+  };
+  let transforms = {
+    someOther: function (k,v,s, p) {
+      return v;
+    }
+  };
+  t.plan(1);
+  adlib(template, {}, transforms);
+  t.notOk(transforms.optional);
+  t.end();
+});
+
 test('Adlib::Strings:: should return a deep copy of the template', (t) => {
   let template = {
     foo: 'bar',
@@ -160,6 +176,21 @@ test('Adlib::Strings:: should allow triple curlies and leave the outer set', (t)
   t.end();
 })
 
+test('Adlib::Strings:: should replace a path with an empty string', (t) => {
+  t.plan(1);
+  let template = {
+    value: '{{thing.value}}'
+  };
+  let settings = {
+    thing: {
+      value: ''
+    }
+  };
+  let result = adlib(template, settings);
+
+  t.equal(result.value, '');
+  t.end();
+})
 
 test('Adlib::Strings:: should replace multiple instances within a larger string', (t) => {
   t.plan(1);
@@ -554,7 +585,8 @@ test('Adlib::Optional:: missing optional array entry is removed', (t) => {
       {
         color: '{{s.color}}',
         props: '{{j.props:optional:1}}'
-      }
+      },
+      '{{j.props:optional}}'
     ]
   };
   let settings = {
