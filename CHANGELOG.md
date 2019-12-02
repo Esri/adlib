@@ -2,7 +2,19 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 3.0.4
+### Changed
+- critical security dependency bumps
+- update release instructions
+### Fixed
+- allow zero (0) to be swapped/injected
+
+## 3.0.3
+### Changed
+- did not know 3.0.2 was released... bump again?
+
 ## 3.0.2
+### Changed
 - add release documentation
 
 ## 3.0.1
