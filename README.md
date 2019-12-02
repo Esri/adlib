@@ -398,8 +398,12 @@ Esri welcomes contributions from anyone and everyone. Please see our [guidelines
 
 ### Release
 
+Update the CHANGELOG w/ release content and then run these commands:
+
 ```
-npm run build:release && npm publish
+git add .
+npm version -f [ major | minor | patch ]
+yarn run build:release && npm publish
 ```
 
 ### License
