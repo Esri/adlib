@@ -401,10 +401,10 @@ Esri welcomes contributions from anyone and everyone. Please see our [guidelines
 Update the CHANGELOG w/ release content and then run these commands:
 
 ```
-git add .
+git add CHANGELOG.md
+yarn test && yarn run build:release
 npm version -f [ major | minor | patch ]
-git push --tags
-yarn run build:release
+git push origin master --tags
 npm publish
 ```
 
