@@ -2,6 +2,21 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+
+## 3.0.5
+### Fixed
+- ensure an `undefined` param does not prevent further interpolations in the same string
+
+```js
+var settings = { person: { name: 'larry'}};
+var tmpl = {
+  chk:  '{{person.name}}<br />{{person.age}}<br />{{person.name}}
+};
+
+adlib(tmpl, settings);
+// > 'larry<br />{{person.age}}<br />larry 
+```
+
 ## 3.0.4
 ### Changed
 - critical security dependency bumps
