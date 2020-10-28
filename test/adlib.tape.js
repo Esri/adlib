@@ -893,3 +893,40 @@ test('Adlib::Hierarchies:: last choice can be timestamp', (t) => {
   t.equal(result.val, 1469803210000, 'should return as a number');
   t.end();
 })
+
+test('Adlib::Hierarchies:: missing value does not stop processing', (t) => {
+  let template = {
+    msg: '{{organization.name}}<br />{{organization.nonexistantproperty.sharedTheme.logo.small}}<br />{{organization.name}}',
+  }
+
+  var settings = {
+    organization: {
+      name: "myOrg"
+    }
+  };
+
+  let result = adlib(template, settings)
+
+  t.plan(1);
+  t.equal(result.msg, 'myOrg<br />{{organization.nonexistantproperty.sharedTheme.logo.small}}<br />myOrg');
+  t.end();
+})
+
+test('Adlib::Hierarchies:: missing value with defaults does not stop processing', (t) => {
+  let template = {
+    msg: '{{organization.name||My Community}}<br />{{organization.nonexistantproperty.sharedTheme.logo.small||https://www.arcgis.com/sharing/rest/content/items/28989a5ecc2d4b2fbf62ac0f5075b7ff/data}}<br />{{organization.name||My Community}}',
+  }
+
+  var settings = {
+    organization: {
+      name: "myOrg"
+    }
+  };
+
+  let result = adlib(template, settings)
+
+  t.plan(1);
+  t.equal(result.msg, 'myOrg<br />https://www.arcgis.com/sharing/rest/content/items/28989a5ecc2d4b2fbf62ac0f5075b7ff/data<br />myOrg');
+  t.end();
+})
+
