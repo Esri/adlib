@@ -3,7 +3,7 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 
-## 3.0.5
+## 3.0.6
 ### Fixed
 - ensure an `undefined` param does not prevent further interpolations in the same string
 
@@ -16,6 +16,9 @@ var tmpl = {
 adlib(tmpl, settings);
 // > 'larry<br />{{person.age}}<br />larry 
 ```
+
+## 3.0.5
+-- sorry no notes
 
 ## 3.0.4
 ### Changed
