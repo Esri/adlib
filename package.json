@@ -14,7 +14,7 @@
     "init": "mkdir dist",
     "clean": "rm -rf dist",
     "build": "rollup -c profiles/dev.js",
-    "build:release": "rollup -c profiles/umd.js && rollup -c profiles/umd.js && rollup -c profiles/prod.js && rollup -c profiles/dev.js",
+    "build:release": "yarn run clean && rollup -c profiles/umd.js && rollup -c profiles/esm.js && rollup -c profiles/prod.js && rollup -c profiles/dev.js",
     "test": "node test/duct.js",
     "test:compiled": "mocha test/*.spec.js",
     "chk": "yarn test && yarn build:release && yarn test:compiled"
