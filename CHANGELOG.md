@@ -2,6 +2,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 3.0.6
+### Fixed
+- fix typo in build:release script causing missing esm dist
+
 ## 3.0.4
 ### Changed
 - critical security dependency bumps

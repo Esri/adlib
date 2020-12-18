@@ -398,10 +398,19 @@ Esri welcomes contributions from anyone and everyone. Please see our [guidelines
 
 ### Release
 
-Update the CHANGELOG w/ release content and then run these commands:
+First, get the latest code and update dependencies.
 
 ```
-git add CHANGELOG.md
+git pull master --tags
+yarn
+```
+
+Then, make sure the `version` in `package.json` is the same as what's released (you can check against `npm view` if unsure).
+
+Next, update the CHANGELOG w/ release content and then run these commands:
+
+```
+git add .
 yarn test && yarn run build:release
 npm version -f [ major | minor | patch ]
 git push origin master --tags
