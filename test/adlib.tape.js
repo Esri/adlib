@@ -943,7 +943,6 @@ test('adlib::handles a leading 0 effectively', (t) => {
 
   const transforms = {};
   let result = adlib(template, settings, transforms);
-  console.log('result: ', result);
   t.plan(1);
   t.equal(result.subdomain, '0000332');
   t.end();
