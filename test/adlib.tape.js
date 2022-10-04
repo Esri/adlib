@@ -980,7 +980,7 @@ test('adlib::handles integers correctly', (t) => {
 
   const transforms = {};
   let result = adlib(template, settings, transforms);
-  t.plan(2);
+  t.plan(1);
   t.equal(result.integer, 7);
   t.end();
 });
