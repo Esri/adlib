@@ -928,5 +928,60 @@ test('Adlib::Hierarchies:: missing value with defaults does not stop processing'
   t.plan(1);
   t.equal(result.msg, 'myOrg<br />https://www.arcgis.com/sharing/rest/content/items/28989a5ecc2d4b2fbf62ac0f5075b7ff/data<br />myOrg');
   t.end();
-})
+});
+
+test('adlib::handles a leading 0 effectively', (t) => {
+  const template = {
+    subdomain: "{{solution.subdomain}}"
+  };
+
+  const settings = {
+    solution: {
+      subdomain: "0000332",
+    },
+  };
+
+  const transforms = {};
+  let result = adlib(template, settings, transforms);
+  t.plan(1);
+  t.equal(result.subdomain, '0000332');
+  t.end();
+});
+
+
+test('adlib::handles floats correctly', (t) => {
+  const template = {
+    float: "{{solution.float}}"
+  };
+
+  const settings = {
+    solution: {
+      float: '0.01',
+    }
+  };
+
+  const transforms = {};
+  let result = adlib(template, settings, transforms);
+  t.plan(1);
+  t.equal(result.float, 0.01);
+  t.end();
+});
+
+test('adlib::handles integers correctly', (t) => {
+  const template = {
+    integer: "{{solution.integer}}"
+  };
+
+  const settings = {
+    solution: {
+      integer: '7',
+    }
+  };
+
+  const transforms = {};
+  let result = adlib(template, settings, transforms);
+  t.plan(1);
+  t.equal(result.integer, 7);
+  t.end();
+});
 

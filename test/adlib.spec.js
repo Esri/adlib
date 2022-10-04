@@ -247,7 +247,7 @@ describe('adlib ::', () => {
   describe('arrays ::', () => {
     it('should replace tokens within an array with strings', () => {
       let template = {
-        values: ['{{s.animal}}', 'fuzzy','{{s.color}}']
+        values: ['{{s.animal}}', 'fuzzy', '{{s.color}}']
       };
       let settings = {
         s: {
@@ -279,7 +279,7 @@ describe('adlib ::', () => {
 
     it('should replace tokens with an array', () => {
       let template = {
-        values:'{{s.animals}}'
+        values: '{{s.animals}}'
       };
       let settings = {
         s: {
@@ -295,7 +295,7 @@ describe('adlib ::', () => {
     });
     it('should replace tokens with an array and run transforms', () => {
       let template = {
-        values:'{{s.animals:upcaseArr}}'
+        values: '{{s.animals:upcaseArr}}'
       };
       let settings = {
         s: {
@@ -305,8 +305,8 @@ describe('adlib ::', () => {
         }
       };
       let transforms = {
-        upcaseArr (key, val, settings) {
-          return val.map((v) =>{
+        upcaseArr(key, val, settings) {
+          return val.map((v) => {
             return v.toUpperCase();
           })
         }
@@ -318,7 +318,7 @@ describe('adlib ::', () => {
     });
     it('should run passed in transforms', () => {
       let template = {
-        value:'{{s.animal.type:upcase}}'
+        value: '{{s.animal.type:upcase}}'
       };
       let settings = {
         s: {
@@ -329,7 +329,7 @@ describe('adlib ::', () => {
         }
       };
       let transforms = {
-        upcase (key, val, settings) {
+        upcase(key, val, settings) {
           return val.toUpperCase() + settings.s.color;
         }
       };
@@ -340,7 +340,7 @@ describe('adlib ::', () => {
 
     it('should run transform even if value is undefined', () => {
       let template = {
-        value:'{{s.animal.type:upcase}}'
+        value: '{{s.animal.type:upcase}}'
       };
       let settings = {
         s: {
@@ -348,7 +348,7 @@ describe('adlib ::', () => {
         }
       };
       let transforms = {
-        upcase (key, val, settings) {
+        upcase(key, val, settings) {
           return key.toUpperCase();
         }
       };
@@ -359,7 +359,7 @@ describe('adlib ::', () => {
 
     it('transform has access to settings hash', () => {
       let template = {
-        value:'{{s.animal.type:upcase}}'
+        value: '{{s.animal.type:upcase}}'
       };
       let settings = {
         s: {
@@ -367,13 +367,61 @@ describe('adlib ::', () => {
         }
       };
       let transforms = {
-        upcase (key, val, settings) {
+        upcase(key, val, settings) {
           return `${key.toUpperCase()} is ${settings.s.color}`;
         }
       };
       let result = adlib.adlib(template, settings, transforms);
       expect(result.value).not.to.be.undefined;
       expect(result.value).to.equal('S.ANIMAL.TYPE is brown');
-    })
+    });
+
+    it('adlib handles a leading 0 effectively', () => {
+      const template = {
+        subdomain: "{{solution.subdomain}}"
+      };
+
+      const settings = {
+        solution: {
+          subdomain: "0000332",
+        },
+      };
+
+      const transforms = {};
+      let result = adlib(template, settings, transforms);
+      expect(result.subdomain).to.equal('0000332');
+    });
+
+    it('adlib handles floats correctly', () => {
+      const template = {
+        float: "{{solution.float}}"
+      };
+
+      const settings = {
+        solution: {
+          float: '0.01',
+        }
+      };
+
+      const transforms = {};
+      let result = adlib(template, settings, transforms);
+      expect(result.float).to.equal(0.01);
+    });
+
+    it('adlib handles integers correctly', () => {
+      const template = {
+        integer: "{{solution.integer}}"
+      };
+
+      const settings = {
+        solution: {
+          integer: '7',
+        }
+      };
+
+      const transforms = {};
+      let result = adlib(template, settings, transforms);
+      expect(result.integer).to.equal(7);
+    });
   })
 })
