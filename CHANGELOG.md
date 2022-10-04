@@ -2,6 +2,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 3.0.7
+## Fixed
+- fix bug that gets rid of leading 0s in adlib strings
+
 ## 3.0.6
 ### Fixed
 - fix typo in build:release script causing missing esm dist
