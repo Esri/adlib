@@ -948,3 +948,40 @@ test('adlib::handles a leading 0 effectively', (t) => {
   t.end();
 });
 
+
+test('adlib::handles floats correctly', (t) => {
+  const template = {
+    float: "{{solution.float}}"
+  };
+
+  const settings = {
+    solution: {
+      float: '0.01',
+    }
+  };
+
+  const transforms = {};
+  let result = adlib(template, settings, transforms);
+  t.plan(1);
+  t.equal(result.float, 0.01);
+  t.end();
+});
+
+test('adlib::handles integers correctly', (t) => {
+  const template = {
+    integer: "{{solution.integer}}"
+  };
+
+  const settings = {
+    solution: {
+      integer: '7',
+    }
+  };
+
+  const transforms = {};
+  let result = adlib(template, settings, transforms);
+  t.plan(2);
+  t.equal(result.integer, 7);
+  t.end();
+});
+

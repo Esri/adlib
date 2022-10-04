@@ -376,7 +376,7 @@ describe('adlib ::', () => {
       expect(result.value).to.equal('S.ANIMAL.TYPE is brown');
     });
 
-    it('adlib::handles a leading 0 effectively', (t) => {
+    it('adlib handles a leading 0 effectively', () => {
       const template = {
         subdomain: "{{solution.subdomain}}"
       };
@@ -392,5 +392,36 @@ describe('adlib ::', () => {
       expect(result.subdomain).to.equal('0000332');
     });
 
+    it('adlib handles floats correctly', () => {
+      const template = {
+        float: "{{solution.float}}"
+      };
+
+      const settings = {
+        solution: {
+          float: '0.01',
+        }
+      };
+
+      const transforms = {};
+      let result = adlib(template, settings, transforms);
+      expect(result.float).to.equal(0.01);
+    });
+
+    it('adlib handles integers correctly', () => {
+      const template = {
+        integer: "{{solution.integer}}"
+      };
+
+      const settings = {
+        solution: {
+          integer: '7',
+        }
+      };
+
+      const transforms = {};
+      let result = adlib(template, settings, transforms);
+      expect(result.integer).to.equal(7);
+    });
   })
 })
