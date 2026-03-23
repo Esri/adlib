@@ -387,7 +387,6 @@ test('Admib::Objects:: should replace a deep token with an deep object', (t) => 
   t.equal(result.value.val, 'red');
 });
 
-
 test('Adlib::Arrays:: should replace tokens within an array with strings', (t) => {
   t.plan(3);
   let template = {
