@@ -387,22 +387,6 @@ test('Admib::Objects:: should replace a deep token with an deep object', (t) => 
   t.equal(result.value.val, 'red');
 });
 
-// test('Admib::Objects:: should replace a deep token with an deep object containing a date', (t) => {
-//   t.plan(2);
-//   let template = {
-//     value: '{{entity}}'
-//   };
-//   let settings = {
-//     entity: {
-//       createdDate: new Date('1970-02-07'),
-//     }
-//   };
-//   let result = adlib(template, settings);
-//   t.ok(result.value.createdDate);
-//   t.equal(result.value.createdDate.getTime(), new Date('1970-02-07').getTime());
-// });
-
-
 test('Adlib::Arrays:: should replace tokens within an array with strings', (t) => {
   t.plan(3);
   let template = {
