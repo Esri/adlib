@@ -241,6 +241,29 @@ describe('adlib ::', () => {
       expect(result.value.val).to.equal('red');
     })
   });
+  it('should replace a deep token with an deep object containing a date', () => {
+    let template = {
+      value: '{{entity}}',
+      color: '{{color}}'
+    };
+    let settings = {
+      entity: {
+        createdDate: new Date('1970-02-07'),
+      },
+      color: {
+        r: 255,
+        g: 0,
+        b: 0
+      }
+    };
+    let result = adlib.adlib(template, settings);
+    expect(result.value.createdDate).not.to.be.undefined;
+    expect(result.value.createdDate.getTime()).to.equal(new Date('1970-02-07').getTime());
+    expect(result.color).not.to.be.undefined;
+    expect(result.color.r).to.equal(255);
+    expect(result.color.g).to.equal(0);
+    expect(result.color.b).to.equal(0);
+  });
   /**
    * Lets play with arrays!
    */
@@ -388,7 +411,7 @@ describe('adlib ::', () => {
       };
 
       const transforms = {};
-      let result = adlib(template, settings, transforms);
+      let result = adlib.adlib(template, settings, transforms);
       expect(result.subdomain).to.equal('0000332');
     });
 
@@ -404,7 +427,7 @@ describe('adlib ::', () => {
       };
 
       const transforms = {};
-      let result = adlib(template, settings, transforms);
+      let result = adlib.adlib(template, settings, transforms);
       expect(result.float).to.equal(0.01);
     });
 
@@ -420,7 +443,7 @@ describe('adlib ::', () => {
       };
 
       const transforms = {};
-      let result = adlib(template, settings, transforms);
+      let result = adlib.adlib(template, settings, transforms);
       expect(result.integer).to.equal(7);
     });
   })
