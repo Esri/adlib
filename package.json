@@ -47,6 +47,10 @@
     "url": "https://github.com/Esri/adlib/issues"
   },
   "homepage": "https://arcgis.github.io/ember-arcgis-adlib-service",
+  "volta": {
+    "node": "18.20.4",
+    "yarn": "1.22.22"
+  },
   "@std/esm": {
     "esm": "all"
   },
